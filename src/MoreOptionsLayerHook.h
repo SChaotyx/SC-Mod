@@ -7,4 +7,5 @@ class MoreOptionsLayerHook : public MoreOptionsLayer {
 	static void LoadHooks();
 	bool MoreOptionsLayerInit();
 	static void OptionCheckUpdate();
+    static void patchMemory(void* loc, std::vector<uint8_t>);
 };
