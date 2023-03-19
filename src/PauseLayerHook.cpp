@@ -14,28 +14,39 @@ bool PauseLayerHook::PauseLayerInit() {
 	
 	auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-	auto optBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::optionsLayer));
-	optBtn->setScale(0.85f);
-	optBtn->setPosition(winSize.width - 50, 50);
-
-    auto infoBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_infoBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::levelInfoLayer));
-	infoBtn->setScale(0.85f);
-    infoBtn->setPosition(winSize.width - 50, winSize.height - 50);
-
-	auto challBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_infoBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::challengesLayer));
-	challBtn->setScale(0.85f);
-    challBtn->setPosition(winSize.width - 50, winSize.height - 160);
-
-	auto ldbrBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_levelLeaderboardBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::levelLeaderboardLayer));
-	ldbrBtn->setScale(0.85f);
-    ldbrBtn->setPosition(winSize.width - 50, winSize.height - 105);
-
 	auto menu = CCMenu::create();
 	menu->setPosition(0,0);
+
+	auto optBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::optionsLayer));
+	optBtn->setPosition(winSize.width - 50, 40);
+	optBtn->setScale(0.80f);
+	optBtn->m_fBaseScale = 0.80f;
 	menu->addChild(optBtn);
-	menu->addChild(infoBtn);
-	menu->addChild(challBtn);
-	menu->addChild(ldbrBtn);
+
+	if(PlayLayer::get()->m_level->m_nLevelID) {
+
+		auto infoBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_infoBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::levelInfoLayer));
+		infoBtn->setPosition(winSize.width - 50, winSize.height - 85);
+		infoBtn->setScale(0.85f);
+		infoBtn->m_fBaseScale = 0.85f;
+		menu->addChild(infoBtn);
+
+		auto ldbrBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_levelLeaderboardBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::levelLeaderboardLayer));
+    	ldbrBtn->setPosition(winSize.width - 50, winSize.height - 130);
+		ldbrBtn->setScale(0.85f);
+		ldbrBtn->m_fBaseScale = 0.85f;
+		menu->addChild(ldbrBtn);
+
+		if (PlayLayer::get()->m_level->m_eLevelType != 2 ) {
+			auto challBtn = CCMenuItemSpriteExtra::create(CCSprite::create("SC_QuestBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::challengesLayer));
+    		challBtn->setPosition(winSize.width - 50, winSize.height - 175);
+			challBtn->setScale(0.85f);
+			challBtn->m_fBaseScale = 0.85f;
+			menu->addChild(challBtn);
+		}
+
+	}
+
 	this->addChild(menu);
 
     return true;
