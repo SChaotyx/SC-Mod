@@ -8,7 +8,6 @@ void PauseLayerHook::LoadHooks() {
 bool PauseLayerHook::PauseLayerInit() {
 
     if(!matdash::orig<&PauseLayerHook::PauseLayerInit>(this)) return false;
-	MoreOptionsLayerHook::OptionCheckUpdate();
 
 	CCDirector *dir = CCDirector::sharedDirector();
 	
@@ -48,6 +47,8 @@ bool PauseLayerHook::PauseLayerInit() {
 	}
 
 	this->addChild(menu);
+
+	if(!GameManager::sharedState()->getGameVariable("6006")) MoreOptionsLayerHook::OptionCheckUpdate();
 
     return true;
 }

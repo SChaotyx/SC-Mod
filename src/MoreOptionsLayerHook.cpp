@@ -9,7 +9,10 @@ void MoreOptionsLayerHook::LoadHooks() {
 bool MoreOptionsLayerHook::MoreOptionsLayerInit() {
 
     if(!matdash::orig<&MoreOptionsLayerHook::MoreOptionsLayerInit>(this)) return false;
-    MoreOptionsLayerHook::OptionCheckUpdate();
+    
+    this->addToggle("Disable SC-Mod Options", "6006", "Recommended if you have Mega Hack or some other mod menu.");
+
+    if(GameManager::sharedState()->getGameVariable("6006")) return true; 
 
     this->addToggle("Practice Music", "6000", "Plays the level's song in-sync with your position, instead of the standard practice song.");
     this->addToggle("No Transition", "6001", "Shorterns scene transition time to 0s.");
@@ -17,7 +20,8 @@ bool MoreOptionsLayerHook::MoreOptionsLayerInit() {
     this->addToggle("Hide Attempts", "6003", "Hides the attempt count in-game.");
     this->addToggle("Slider Limit", "6004", "Lets sliders be dragged beyond the visible limit.");
     this->addToggle("Free Window Resize", "6005", "Removes limits in place for window resizing.");
-    //this->addToggle("", "0", "");
+
+    MoreOptionsLayerHook::OptionCheckUpdate();
 
     return true;
 }
