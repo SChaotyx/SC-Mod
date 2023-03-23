@@ -42,7 +42,7 @@ bool EndLevelLayerHook::EndLevelLayerHookInit() {
 
 	this->addChild(menu);
 
-	if(PlayLayer::get()->m_level->m_eLevelType == 2 ) CreatorToolsLayer::resetOnQuit();
+	//if(PlayLayer::get()->m_level->m_eLevelType == 2 ) CreatorToolsLayer::resetOnQuit();
     std::cout << PlayLayer::get()->m_level->m_nLevelID << std::endl;
 
     return true;

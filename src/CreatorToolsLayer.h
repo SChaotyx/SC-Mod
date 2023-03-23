@@ -2,14 +2,22 @@
 
 #include "includes.h"
 
-class CreatorToolsLayer : public FLAlertLayer, public CCTextFieldDelegate, public FLAlertLayerProtocol {
+class CreatorToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol {
     public:
+    static CreatorToolsLayer* create() {
+        auto pRet = new CreatorToolsLayer();
+        if(pRet && pRet->init()) {
+            pRet->autorelease();
+            return pRet;
+        }
+        CC_SAFE_DELETE(pRet);
+        return nullptr;
+    }
 
-    static auto create();
-    virtual bool init();
-   
+    bool init();
     void openCallback(CCObject*);
     void closeCallback(CCObject*) { keyBackClicked(); }
+
     void keyBackClicked();
     void keyDown(enumKeyCodes key) {
         if (key == 27) keyBackClicked();
@@ -21,8 +29,9 @@ class CreatorToolsLayer : public FLAlertLayer, public CCTextFieldDelegate, publi
     void setLevelSpeed4(CCObject*);
     static void applyLevelSpeed(float levelSpeed);
 
-    static void resetOnQuit();
-    static void noclipToggler();
     void toggleNoclip(CCObject*);
-    auto noclipTest(CCSprite*, CCSprite*);
+    static void noclipToggler();
+    auto noclipCheck(CCSprite*, CCSprite*);
+
+    static void resetOnQuit();
 };
