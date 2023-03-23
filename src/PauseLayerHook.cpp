@@ -92,4 +92,11 @@ FLAlertLayer* PauseLayerHook::CreateLevelLeaderboardLayer(GJGameLevel* level) {
 void PauseLayerHook::levelLeaderboardLayer(cocos2d::CCObject* pSender) {
 	PauseLayerHook::CreateLevelLeaderboardLayer(PlayLayer::get()->m_level)->show();
 }
+/*
+void PauseLayerHook::onResume(CCObject* pSender) {
+	reinterpret_cast<void(__thiscall*)(PauseLayer*, cocos2d::CCObject*)>(
+        base + 0x1e5fa0
+    )(this, pSender);
+}
+*/
     
