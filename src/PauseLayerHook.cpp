@@ -1,5 +1,6 @@
 #include "PauseLayerHook.h"
 #include "MoreOptionsLayerHook.h"
+#include "CreatorToolsLayer.h"
 
 void PauseLayerHook::LoadHooks() {
     matdash::add_hook<&PauseLayerHook::PauseLayerInit>(base + 0x1E4620);
@@ -22,6 +23,14 @@ bool PauseLayerHook::PauseLayerInit() {
 	optBtn->m_fBaseScale = 0.80f;
 	menu->addChild(optBtn);
 
+	if(PlayLayer::get()->m_level->m_eLevelType == 2 ){
+		auto COptBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_plusBtn_001.png"), this, (SEL_MenuHandler)(&CreatorToolsLayer::openCallback));
+		COptBtn->setPosition(50, 40);
+		COptBtn->setScale(0.85f);
+		COptBtn->m_fBaseScale = 0.85f;
+		menu->addChild(COptBtn);
+	}
+	
 	if(PlayLayer::get()->m_level->m_nLevelID) {
 
 		auto infoBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_infoBtn_001.png"), this, (SEL_MenuHandler)(&PauseLayerHook::levelInfoLayer));

@@ -18,4 +18,6 @@ public:
 	void challengesLayer(cocos2d::CCObject* pSender);
 
 	void extraOptLayer(cocos2d::CCObject* pSender);
+
+	void CreatorOpt(cocos2d::CCObject* pSender);
 };
