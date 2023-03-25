@@ -1,22 +1,19 @@
-#include "MenuLayerHook.h"
-#include "MoreOptionsLayerHook.h"
+#include "GDMenuLayer.h"
+#include "SCManager.h"
 
-void MenuLayerHook::LoadHooks() {
-    matdash::add_hook<&MenuLayerHook::MenuLayerHookInit>(base + 0x1907B0);
+void GDMenuLayer::Hook() {
+    matdash::add_hook<&GDMenuLayer::Init>(base + 0x1907B0);
 }
 
-bool MenuLayerHook::MenuLayerHookInit() {
-    if(!matdash::orig<&MenuLayerHook::MenuLayerHookInit>(this)) return false;
-
-    MenuLayerHook::AccountIcon();
-
-    if(!GameManager::sharedState()->getGameVariable("6006")) MoreOptionsLayerHook::OptionCheckUpdate();
-	
+bool GDMenuLayer::Init() {
+    if(!matdash::orig<&GDMenuLayer::Init>(this)) return false;
+    GDMenuLayer::AccountIcon();
+	SCManager::StartUpCheck();
 	return true;
 }
 
 //From https://github.com/MikaKC/FutureDash
-void MenuLayerHook::AccountIcon() {
+void GDMenuLayer::AccountIcon() {
 
     int count = this->getChildrenCount();
 
@@ -43,7 +40,7 @@ void MenuLayerHook::AccountIcon() {
 	return;
 }
 
-int MenuLayerHook::frameIcon(IconType icon) {
+int GDMenuLayer::frameIcon(IconType icon) {
 	switch(icon) {
 		default: return GameManager::sharedState()->getPlayerFrame();
 		case IconType::kIconTypeShip: return GameManager::sharedState()->getPlayerShip();

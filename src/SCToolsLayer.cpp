@@ -1,13 +1,13 @@
-#include "CreatorToolsLayer.h"
-#include "MoreOptionsLayerHook.h"
+#include "SCToolsLayer.h"
+#include "Utils.h"
 
 
 bool noclipEnabled = false;
-auto CreatorToolsLayer::noclipCheck(CCSprite* check_on_sprite, CCSprite* check_off_sprite){
+auto SCToolsLayer::noclipCheck(CCSprite* check_on_sprite, CCSprite* check_off_sprite){
     return (noclipEnabled) ? check_on_sprite : check_off_sprite;
 }
 
-bool CreatorToolsLayer::init() {
+bool SCToolsLayer::init() {
     if(!initWithColor(ccc4(0, 0, 0, 130))) return false;
 
     auto dir = CCDirector::sharedDirector();
@@ -27,7 +27,7 @@ bool CreatorToolsLayer::init() {
 
     auto sprite = CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png");
     sprite->setScale(0.75f);
-    auto btn = gd::CCMenuItemSpriteExtra::create(sprite, this, menu_selector(CreatorToolsLayer::closeCallback));
+    auto btn = gd::CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::closeCallback));
     btn->setPosition(-12,-12);
     m_pButtonMenu->addChild(btn);
 
@@ -37,7 +37,7 @@ bool CreatorToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(CreatorToolsLayer::setLevelSpeed1));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed1));
     btn->setPosition(30, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -47,7 +47,7 @@ bool CreatorToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(CreatorToolsLayer::setLevelSpeed2));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed2));
     btn->setPosition(30 + 50, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -57,7 +57,7 @@ bool CreatorToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(CreatorToolsLayer::setLevelSpeed3));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed3));
     btn->setPosition(30 + 100, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -67,7 +67,7 @@ bool CreatorToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(CreatorToolsLayer::setLevelSpeed4));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed4));
     btn->setPosition(30 + 150, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -79,7 +79,7 @@ bool CreatorToolsLayer::init() {
     CCMenuItemToggler* noclipBtn;
     auto* const check_off_sprite = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
     auto* const check_on_sprite = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
-    noclipBtn = CCMenuItemToggler::create(noclipCheck(check_on_sprite, check_off_sprite), noclipCheck(check_off_sprite, check_on_sprite), this, menu_selector(CreatorToolsLayer::toggleNoclip));
+    noclipBtn = CCMenuItemToggler::create(noclipCheck(check_on_sprite, check_off_sprite), noclipCheck(check_off_sprite, check_on_sprite), this, menu_selector(SCToolsLayer::toggleNoclip));
     noclipBtn->setScale(0.5f);
     noclipBtn->setPosition(25, 20);
     m_pButtonMenu->addChild(noclipBtn);
@@ -91,7 +91,7 @@ bool CreatorToolsLayer::init() {
     return true;
 }
 
-void CreatorToolsLayer::openCallback(CCObject*) {
+void SCToolsLayer::openCallback(CCObject*) {
     auto menu = create();
     auto dir = CCDirector::sharedDirector();
     auto scene = dir->getRunningScene();
@@ -100,36 +100,36 @@ void CreatorToolsLayer::openCallback(CCObject*) {
     dir->getTouchDispatcher()->incrementForcePrio(2);
 }
 
-void CreatorToolsLayer::setLevelSpeed1(CCObject*) { CreatorToolsLayer::applyLevelSpeed(1); CreatorToolsLayer::keyBackClicked(); }
-void CreatorToolsLayer::setLevelSpeed2(CCObject*) { CreatorToolsLayer::applyLevelSpeed(0.75); CreatorToolsLayer::keyBackClicked(); }
-void CreatorToolsLayer::setLevelSpeed3(CCObject*) { CreatorToolsLayer::applyLevelSpeed(0.5); CreatorToolsLayer::keyBackClicked(); }
-void CreatorToolsLayer::setLevelSpeed4(CCObject*) { CreatorToolsLayer::applyLevelSpeed(0.25); CreatorToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed1(CCObject*) { SCToolsLayer::applyLevelSpeed(1); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed2(CCObject*) { SCToolsLayer::applyLevelSpeed(0.75); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed3(CCObject*) { SCToolsLayer::applyLevelSpeed(0.5); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolsLayer::applyLevelSpeed(0.25); SCToolsLayer::keyBackClicked(); }
 
-void CreatorToolsLayer::applyLevelSpeed(float levelSpeed) {
+void SCToolsLayer::applyLevelSpeed(float levelSpeed) {
     auto dir = CCDirector::sharedDirector();
     dir->getScheduler()->setTimeScale(levelSpeed);
     std::cout << "set time scale to: " << levelSpeed << std::endl;
 }
 
-void CreatorToolsLayer::keyBackClicked() {
+void SCToolsLayer::keyBackClicked() {
     gd::FLAlertLayer::keyBackClicked();
 }
 
-void CreatorToolsLayer::toggleNoclip(CCObject*) { noclipToggler(); }
+void SCToolsLayer::toggleNoclip(CCObject*) { noclipToggler(); }
 
-void CreatorToolsLayer::noclipToggler() {
+void SCToolsLayer::noclipToggler() {
     noclipEnabled = !noclipEnabled;
     if(noclipEnabled) {
-        MoreOptionsLayerHook::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0xE9, 0x79, 0x06, 0x00, 0x00});
+        Utils::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0xE9, 0x79, 0x06, 0x00, 0x00});
         std::cout << "noclip enabled" << std::endl;
     } else {
-        MoreOptionsLayerHook::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0x6A, 0x14, 0x8B, 0xCB, 0xFF});
+        Utils::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0x6A, 0x14, 0x8B, 0xCB, 0xFF});
         std::cout << "noclip disabled" << std::endl;
     }
 }
 
-void CreatorToolsLayer::resetOnQuit(){ 
+void SCToolsLayer::resetOnQuit(){ 
     std::cout << "Reset on Quit" << std::endl;
     if(noclipEnabled) noclipToggler();
-    CreatorToolsLayer::applyLevelSpeed(1);
+    if(CCDirector::sharedDirector()->getScheduler()->getTimeScale() != 1) SCToolsLayer::applyLevelSpeed(1);
 }

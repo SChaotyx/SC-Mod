@@ -2,10 +2,10 @@
 
 #include "includes.h"
 
-class CreatorToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol {
+class SCToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol {
     public:
-    static CreatorToolsLayer* create() {
-        auto pRet = new CreatorToolsLayer();
+    static SCToolsLayer* create() {
+        auto pRet = new SCToolsLayer();
         if(pRet && pRet->init()) {
             pRet->autorelease();
             return pRet;
@@ -27,7 +27,7 @@ class CreatorToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtoc
     void setLevelSpeed2(CCObject*);
     void setLevelSpeed3(CCObject*);
     void setLevelSpeed4(CCObject*);
-    static void applyLevelSpeed(float levelSpeed);
+    static void applyLevelSpeed(float);
 
     void toggleNoclip(CCObject*);
     static void noclipToggler();
