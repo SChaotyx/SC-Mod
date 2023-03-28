@@ -5,7 +5,7 @@ void GDMoreOptionsLayer::Hook() {
 }
 
 bool GDMoreOptionsLayer::Init() {
-    if(!matdash::orig<&GDMoreOptionsLayer::Init>(this)) return false;
+    matdash::orig<&GDMoreOptionsLayer::Init>(this);
 
     return true;
 }

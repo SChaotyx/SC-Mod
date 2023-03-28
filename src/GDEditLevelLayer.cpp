@@ -5,7 +5,7 @@ void GDEditLevelLayer::Hook() {
 }
 
 bool GDEditLevelLayer::Init(GJGameLevel* level) {
-    if(!matdash::orig<&GDEditLevelLayer::Init>(this, level)) return false;
+    matdash::orig<&GDEditLevelLayer::Init>(this, level);
 
 	CCDirector *dir = CCDirector::sharedDirector();
 	

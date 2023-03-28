@@ -6,7 +6,7 @@ void GDLevelCompleteLayer::Hook() {
 }
 
 bool GDLevelCompleteLayer::Init() {
-    if(!matdash::orig<&GDLevelCompleteLayer::Init>(this)) return false;
+    matdash::orig<&GDLevelCompleteLayer::Init>(this);
 
     CCDirector *dir = CCDirector::sharedDirector();
 	

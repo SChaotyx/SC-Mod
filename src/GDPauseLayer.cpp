@@ -12,7 +12,7 @@ void GDPauseLayer::Hook() {
 }
 
 bool GDPauseLayer::Init() {
-    if(!matdash::orig<&GDPauseLayer::Init>(this)) return false;
+    matdash::orig<&GDPauseLayer::Init>(this);
 
 	CCDirector *dir = CCDirector::sharedDirector();
 	

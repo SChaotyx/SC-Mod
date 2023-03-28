@@ -6,7 +6,7 @@ void GDOptionsLayer::Hook() {
 }
 
 bool GDOptionsLayer::Init() {
-    if(!matdash::orig<&GDOptionsLayer::Init>(this)) return false;
+    matdash::orig<&GDOptionsLayer::Init>(this);
 	CCDirector *dir = CCDirector::sharedDirector();
 	
 	auto winSize = CCDirector::sharedDirector()->getWinSize();

@@ -6,7 +6,7 @@ void GDMenuLayer::Hook() {
 }
 
 bool GDMenuLayer::Init() {
-    if(!matdash::orig<&GDMenuLayer::Init>(this)) return false;
+    matdash::orig<&GDMenuLayer::Init>(this);
     GDMenuLayer::AccountIcon();
 	SCManager::StartUpCheck();
 	return true;
