@@ -16,7 +16,7 @@ auto cocos(const char* symbol) {
 }
 
 void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int key, bool down) {
-    if (down) {
+    if (down && !GameManager::sharedState()->getGameVariable("6007")) {
         if(auto play_layer = gd::GameManager::sharedState()->getPlayLayer()){
             if(!play_layer->m_hasCompletedLevel && !play_layer->m_bIsPaused) {
                 if(play_layer->get()->m_level->m_eLevelType == 2){

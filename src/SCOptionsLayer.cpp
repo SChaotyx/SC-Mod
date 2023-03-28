@@ -35,6 +35,7 @@ bool SCOptionsLayer::Init() {
     SCOptionsLayer::createToggle("Slider Limit", "6004", "Lets sliders be dragged beyond the visible limit.");
     SCOptionsLayer::createToggle("Free Window Resize", "6005", "Removes limits in place for window resizing.");
     //SCOptionsLayer::createToggle("Disable SC-Mod Options", "6006", "Recommended if you have Mega Hack or some other mod menu.");
+    SCOptionsLayer::createToggle("Disable Keybinds", "6007", "Disable keybinds during gameplay");
     
     setTouchEnabled(true);
     setKeypadEnabled(true);
@@ -64,9 +65,9 @@ void SCOptionsLayer::createToggle(const char* name, const char* optionKey, const
     float defX = -160;
     float defY = 80 - (toggleCount * 47);
     //xD
-    if(toggleCount >= 3){
+    if(toggleCount >= 4){
         defX = 25;
-        defY = 80 - ((toggleCount - 3) * 47);
+        defY = 80 - ((toggleCount - 4) * 47);
     }
 
     toggleBtn = CCMenuItemToggler::create(
