@@ -20,19 +20,17 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
         if(auto play_layer = gd::GameManager::sharedState()->getPlayLayer()){
             if(!play_layer->m_hasCompletedLevel && !play_layer->m_bIsPaused) {
                 if(play_layer->get()->m_level->m_eLevelType == 2){
-                    if (key == 'A') {
+                    if (key == 'N') {
+                        SCToolsLayer::noclipToggler();
+                    } else if (key == 'M') {
                         SCToolsLayer::applyLevelSpeed(1);
-                    } else if (key == 'S') {
-                        SCToolsLayer::applyLevelSpeed(0.75);
-                    } else if (key == 'D') {
-                        SCToolsLayer::applyLevelSpeed(0.5);
-                    } else if (key == 'F') {
-                        SCToolsLayer::applyLevelSpeed(0.25);
+                    } else if (key == 188) { //,
+                        SCToolsLayer::decLevelSpeed(true);
+                    } else if (key == 190) { //.
+                        SCToolsLayer::decLevelSpeed(false);
                     }
                 }
-                if(key == 'R') {
-                    reinterpret_cast<void(__thiscall*)(PlayLayer*)>(base + 0x20BF00)(play_layer);
-                }
+                if(key == 'A') reinterpret_cast<void(__thiscall*)(PlayLayer*)>(base + 0x20BF00)(play_layer); //reset level
             }
         }
     }

@@ -27,6 +27,7 @@ class SCToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol {
     void setLevelSpeed2(CCObject*);
     void setLevelSpeed3(CCObject*);
     void setLevelSpeed4(CCObject*);
+    static void decLevelSpeed(bool);
     static void applyLevelSpeed(float);
 
     void toggleNoclip(CCObject*);

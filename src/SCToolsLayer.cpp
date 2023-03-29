@@ -105,6 +105,16 @@ void SCToolsLayer::setLevelSpeed2(CCObject*) { SCToolsLayer::applyLevelSpeed(0.7
 void SCToolsLayer::setLevelSpeed3(CCObject*) { SCToolsLayer::applyLevelSpeed(0.5); SCToolsLayer::keyBackClicked(); }
 void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolsLayer::applyLevelSpeed(0.25); SCToolsLayer::keyBackClicked(); }
 
+void SCToolsLayer::decLevelSpeed(bool dec) {
+    float actualSpeed = CCDirector::sharedDirector()->getScheduler()->getTimeScale();
+    float v = 0.25;
+    if(dec) {
+        if(actualSpeed > 0.25) SCToolsLayer::applyLevelSpeed(actualSpeed - v);
+    } else {
+        if(actualSpeed < 1.25) SCToolsLayer::applyLevelSpeed(actualSpeed + v);
+    }
+}
+
 void SCToolsLayer::applyLevelSpeed(float levelSpeed) {
     auto dir = CCDirector::sharedDirector();
     dir->getScheduler()->setTimeScale(levelSpeed);
