@@ -22,20 +22,20 @@ bool GDLevelCompleteLayer::Init() {
 				
 				if(PlayLayer::get()->m_level->m_nLevelID) {
 					auto infoBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_infoBtn_001.png"), this, (SEL_MenuHandler)(&GDPauseLayer::levelInfoLayer));
-					infoBtn->setPosition(182.5, 40);
+					infoBtn->setPosition(215, 40);
 					infoBtn->setScale(0.85f);
 					infoBtn->m_fBaseScale = 0.85f;
 					menu->addChild(infoBtn);
 
 					auto ldbrBtn = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_levelLeaderboardBtn_001.png"), this, (SEL_MenuHandler)(&GDPauseLayer::levelLeaderboardLayer));
-					ldbrBtn->setPosition(182.5, -5);
+					ldbrBtn->setPosition(215, -5);
 					ldbrBtn->setScale(0.85f);
 					ldbrBtn->m_fBaseScale = 0.85f;
 					menu->addChild(ldbrBtn);
 
 					if (PlayLayer::get()->m_level->m_eLevelType != 2 ) {
 						auto challBtn = CCMenuItemSpriteExtra::create(CCSprite::create("SC_QuestBtn_001.png"), this, (SEL_MenuHandler)(&GDPauseLayer::challengesLayer));
-						challBtn->setPosition(182.5, -50);
+						challBtn->setPosition(215, -50);
 						challBtn->setScale(0.85f);
 						challBtn->m_fBaseScale = 0.85f;
 						menu->addChild(challBtn);
