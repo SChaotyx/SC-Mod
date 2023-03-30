@@ -4,4 +4,5 @@
 
 namespace Utils {
     void patchMemory(void* loc, std::vector<uint8_t>);
+	const char* getTextureNameForSpriteFrame(cocos2d::CCSprite* sprite_node);
 };
