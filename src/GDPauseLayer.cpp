@@ -1,14 +1,11 @@
 #include "GDPauseLayer.h"
 #include "SCToolsLayer.h"
-
-void GDPauseLayer_onEditor(PlayLayer* self) {
-	if(PlayLayer::get()->m_level->m_eLevelType == 2 ) SCToolsLayer::resetOnQuit();
-    matdash::orig<&GDPauseLayer_onEditor>(self);
-}
+#include "SCToolBox.h"
 
 void GDPauseLayer::Hook() {
     matdash::add_hook<&GDPauseLayer::Init>(base + 0x1E4620);
-    matdash::add_hook<&GDPauseLayer_onEditor>(base + 0x1E60E0);
+    matdash::add_hook<&GDPauseLayer::onEditor>(base + 0x1E60E0);
+    matdash::add_hook<&GDPauseLayer::onResume>(base + 0x1e5fa0);
 }
 
 bool GDPauseLayer::Init() {
@@ -94,8 +91,21 @@ FLAlertLayer* GDPauseLayer::CreateLevelLeaderboardLayer(GJGameLevel* level) {
 void GDPauseLayer::levelLeaderboardLayer(cocos2d::CCObject* pSender) {
 	GDPauseLayer::CreateLevelLeaderboardLayer(PlayLayer::get()->m_level)->show();
 }
+
+bool GDPauseLayer::onResume(PlayLayer* self) {
+    matdash::orig<&GDPauseLayer::onResume>(this, self);
+	float levelSpeed = CCDirector::sharedDirector()->getScheduler()->getTimeScale();
+	if(levelSpeed != 1)SCToolBox::setSongPitch(levelSpeed);
+	return true;
+}
+
+bool GDPauseLayer::onEditor(PlayLayer* self) {
+	if(PlayLayer::get()->m_level->m_eLevelType == 2 ) SCToolsLayer::resetOnQuit();
+    matdash::orig<&GDPauseLayer::onEditor>(this, self);
+	return true;
+}
 /*
-void GDPauseLayer::onResume(CCObject* pSender) {
+void GDPauseLayer::Resume(CCObject* pSender) {
 	reinterpret_cast<void(__thiscall*)(PauseLayer*, cocos2d::CCObject*)>(
         base + 0x1e5fa0
     )(this, pSender);

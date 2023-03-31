@@ -6,6 +6,8 @@ class GDPauseLayer : public PauseLayer {
 public:
     static void Hook();
 	bool Init();
+	bool onEditor(PlayLayer*);
+	bool onResume(PlayLayer*);
 
     static FLAlertLayer* CreateLevelInfoLayer(GJGameLevel*);
 	void levelInfoLayer(CCObject*);

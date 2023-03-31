@@ -1,5 +1,5 @@
 #include "SCToolsLayer.h"
-#include "Utils.h"
+#include "SCToolBox.h"
 
 
 bool noclipEnabled = false;
@@ -100,29 +100,23 @@ void SCToolsLayer::openCallback(CCObject*) {
     dir->getTouchDispatcher()->incrementForcePrio(2);
 }
 
-void SCToolsLayer::setLevelSpeed1(CCObject*) { SCToolsLayer::applyLevelSpeed(1); SCToolsLayer::keyBackClicked(); }
-void SCToolsLayer::setLevelSpeed2(CCObject*) { SCToolsLayer::applyLevelSpeed(0.75); SCToolsLayer::keyBackClicked(); }
-void SCToolsLayer::setLevelSpeed3(CCObject*) { SCToolsLayer::applyLevelSpeed(0.5); SCToolsLayer::keyBackClicked(); }
-void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolsLayer::applyLevelSpeed(0.25); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed1(CCObject*) { SCToolBox::setLevelSpeed(1); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed2(CCObject*) { SCToolBox::setLevelSpeed(0.75); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed3(CCObject*) { SCToolBox::setLevelSpeed(0.5); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolBox::setLevelSpeed(0.25); SCToolsLayer::keyBackClicked(); }
 
 void SCToolsLayer::decLevelSpeed(bool dec) {
     float actualSpeed = CCDirector::sharedDirector()->getScheduler()->getTimeScale();
     float v = 0.25;
     if(dec) {
-        if(actualSpeed > 0.25) SCToolsLayer::applyLevelSpeed(actualSpeed - v);
+        if(actualSpeed > 0.25) SCToolBox::setLevelSpeed(actualSpeed - v);
     } else {
-        if(actualSpeed < 1.25) SCToolsLayer::applyLevelSpeed(actualSpeed + v);
+        if(actualSpeed < 1.5) SCToolBox::setLevelSpeed(actualSpeed + v);
     }
 }
 
-void SCToolsLayer::applyLevelSpeed(float levelSpeed) {
-    auto dir = CCDirector::sharedDirector();
-    dir->getScheduler()->setTimeScale(levelSpeed);
-    std::cout << "set time scale to: " << levelSpeed << std::endl;
-}
-
 void SCToolsLayer::keyBackClicked() {
-    gd::FLAlertLayer::keyBackClicked();
+    FLAlertLayer::keyBackClicked();
 }
 
 void SCToolsLayer::toggleNoclip(CCObject*) { noclipToggler(); }
@@ -130,10 +124,10 @@ void SCToolsLayer::toggleNoclip(CCObject*) { noclipToggler(); }
 void SCToolsLayer::noclipToggler() {
     noclipEnabled = !noclipEnabled;
     if(noclipEnabled) {
-        Utils::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0xE9, 0x79, 0x06, 0x00, 0x00});
+        SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0xE9, 0x79, 0x06, 0x00, 0x00});
         std::cout << "noclip enabled" << std::endl;
     } else {
-        Utils::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0x6A, 0x14, 0x8B, 0xCB, 0xFF});
+        SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0x6A, 0x14, 0x8B, 0xCB, 0xFF});
         std::cout << "noclip disabled" << std::endl;
     }
 }
@@ -141,5 +135,5 @@ void SCToolsLayer::noclipToggler() {
 void SCToolsLayer::resetOnQuit(){ 
     std::cout << "Reset on Quit" << std::endl;
     if(noclipEnabled) noclipToggler();
-    if(CCDirector::sharedDirector()->getScheduler()->getTimeScale() != 1) SCToolsLayer::applyLevelSpeed(1);
+    if(CCDirector::sharedDirector()->getScheduler()->getTimeScale() != 1) SCToolBox::setLevelSpeed(1);
 }

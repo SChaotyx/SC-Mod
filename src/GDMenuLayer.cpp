@@ -1,6 +1,6 @@
 #include "GDMenuLayer.h"
 #include "SCManager.h"
-#include "Utils.h"
+#include "SCToolBox.h"
 
 void GDMenuLayer::Hook() {
     matdash::add_hook<&GDMenuLayer::Init>(base + 0x1907B0);
@@ -24,7 +24,7 @@ void GDMenuLayer::AccountIcon() {
 			for(int j = 0; j <	menuCount; j++) {
 				auto button = (CCMenuItemSpriteExtra*)menu->getChildren()->objectAtIndex(j);
 				auto spr = (CCSprite*)button->getChildren()->objectAtIndex(0);
-				if(strcmp(Utils::getTextureNameForSpriteFrame(spr), "GJ_profileButton_001.png") == 0) {
+				if(strcmp(SCToolBox::getTextureNameForSpriteFrame(spr), "GJ_profileButton_001.png") == 0) {
 					auto bluebtn = CCSprite::create("SC_ProfileBtn_001.png");
 					spr->addChild(bluebtn);
 

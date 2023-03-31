@@ -1,7 +1,6 @@
 #include "Hooks.h"
 
 #include "GDMenuLayer.h"
-//#include "GDMoreOptionsLayer.h"
 #include "GDEditLevelLayer.h"
 #include "GDPauseLayer.h"
 #include "GDPlayLayer.h"
@@ -9,11 +8,10 @@
 #include "GDOptionsLayer.h"
 
 #include "SCToolsLayer.h"
+#include "SCToolBox.h"
 
-auto cocos(const char* symbol) {
-    static auto mod = GetModuleHandleA("libcocos2d.dll");
-    return GetProcAddress(mod, symbol);
-}
+static auto libcocos = GetModuleHandleA("libcocos2d.dll");
+static auto fmodBase = GetModuleHandleA("fmod.dll");
 
 void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int key, bool down) {
     if (down && !GameManager::sharedState()->getGameVariable("6007")) {
@@ -23,7 +21,7 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
                     if (key == 'N') {
                         SCToolsLayer::noclipToggler();
                     } else if (key == 'M') {
-                        SCToolsLayer::applyLevelSpeed(1);
+                        SCToolBox::setLevelSpeed(1);
                     } else if (key == 188) { //,
                         SCToolsLayer::decLevelSpeed(true);
                     } else if (key == 190) { //.
@@ -37,7 +35,6 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
     matdash::orig<&CCKeyboardDispatcher_dispatchKeyboardMSG>(self, key, down);
 }
 
-
 void Hooks::Load() {
 
     GDMenuLayer::Hook();
@@ -48,6 +45,10 @@ void Hooks::Load() {
     GDOptionsLayer::Hook();
 
     // from https://github.com/matcool/ReplayBot
-    matdash::add_hook<&CCKeyboardDispatcher_dispatchKeyboardMSG>(cocos("?dispatchKeyboardMSG@CCKeyboardDispatcher@cocos2d@@QAE_NW4enumKeyCodes@2@_N@Z"));
+    matdash::add_hook<&CCKeyboardDispatcher_dispatchKeyboardMSG>
+        (GetProcAddress(libcocos, "?dispatchKeyboardMSG@CCKeyboardDispatcher@cocos2d@@QAE_NW4enumKeyCodes@2@_N@Z"));
+
+    SCToolBox::FMOD_Channel_setPitch = reinterpret_cast<decltype(SCToolBox::FMOD_Channel_setPitch)>
+        (GetProcAddress(fmodBase, "?setPitch@ChannelControl@FMOD@@QAG?AW4FMOD_RESULT@@M@Z"));
 
 }

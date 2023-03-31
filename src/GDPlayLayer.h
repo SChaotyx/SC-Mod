@@ -7,4 +7,6 @@ class GDPlayLayer : public PlayLayer {
     static void Hook();
     bool onQuit();
     bool onLevelComplete();
+    bool onReset();
+    bool onResume();
 };

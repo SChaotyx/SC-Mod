@@ -1,6 +1,9 @@
-#include "Utils.h"
+#include "SCToolBox.h"
+#include "SCToolsLayer.h"
 
-void Utils::patchMemory(void* patchLoc, std::vector<uint8_t> bytes) {
+
+
+void SCToolBox::patchMemory(void* patchLoc, std::vector<uint8_t> bytes) {
     DWORD old_prot;
     VirtualProtect(patchLoc, bytes.size(), PAGE_EXECUTE_READWRITE, &old_prot);
     memcpy(patchLoc, bytes.data(), bytes.size());
@@ -22,11 +25,9 @@ void Utils::patchMemory(void* patchLoc, std::vector<uint8_t> bytes) {
 	return c.get(reinterpret_cast<FriendeeClass__*>(v)); \
 }(value)
 
-const char* Utils::getTextureNameForSpriteFrame(cocos2d::CCSprite* sprite_node) {
-	
+const char* SCToolBox::getTextureNameForSpriteFrame(cocos2d::CCSprite* sprite_node) {	
 	auto* texture = sprite_node->getTexture();
-	cocos2d::CCDictElement* el;
-		
+	cocos2d::CCDictElement* el;		
 	auto* frame_cache = cocos2d::CCSpriteFrameCache::sharedSpriteFrameCache();
 	auto* cached_frames = public_cast(frame_cache, m_pSpriteFrames);
 	const auto rect = sprite_node->getTextureRect();
@@ -36,6 +37,24 @@ const char* Utils::getTextureNameForSpriteFrame(cocos2d::CCSprite* sprite_node) 
 			return el->getStrKey();
 		}
 	}
-
 	return "";
+}
+
+void SCToolBox::setLevelSpeed(float levelSpeed) {
+	auto dir = CCDirector::sharedDirector();
+    dir->getScheduler()->setTimeScale(levelSpeed);
+    SCToolBox::setSongPitch(levelSpeed);
+    std::cout << "set time scale to: " << levelSpeed << std::endl;
+}
+
+void SCToolBox::setSongPitch(float pitch) {
+    auto fmod = FMODAudioEngine::sharedEngine();
+    if(fmod->isBackgroundMusicPlaying()) {
+        auto channel = fmod->m_pGlobalChannel;
+        __asm {
+            push pitch;
+            push channel;
+        }
+        SCToolBox::FMOD_Channel_setPitch();
+    }
 }
