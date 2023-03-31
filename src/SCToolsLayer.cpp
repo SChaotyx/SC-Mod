@@ -107,7 +107,7 @@ void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolBox::setLevelSpeed(0.25); S
 
 void SCToolsLayer::decLevelSpeed(bool dec) {
     float actualSpeed = CCDirector::sharedDirector()->getScheduler()->getTimeScale();
-    float v = 0.25;
+    float v = 0.25f;
     if(dec) {
         if(actualSpeed > 0.25) SCToolBox::setLevelSpeed(actualSpeed - v);
     } else {
