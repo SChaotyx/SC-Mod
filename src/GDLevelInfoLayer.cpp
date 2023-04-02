@@ -18,7 +18,8 @@ bool GDLevelInfoLayer::Init(GJGameLevel* level)
 
     auto sprite = CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png");
     auto button = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(GDLevelInfoLayer::toOptions));
-    sprite->setScale(0.8f);
+    button->setScale(0.8f);
+    button->m_fBaseScale = 0.8f;
     menu->addChild(button);
 
     return true;

@@ -2,11 +2,13 @@
 #include "SCManager.h"
 #include "SCToolBox.h"
 
-void GDMenuLayer::Hook() {
+void GDMenuLayer::Hook()
+{
     matdash::add_hook<&GDMenuLayer::Init>(base + 0x1907B0);
 }
 
-bool GDMenuLayer::Init() {
+bool GDMenuLayer::Init()
+{
     matdash::orig<&GDMenuLayer::Init>(this);
     GDMenuLayer::AccountIcon();
 	SCManager::StartUpCheck();
@@ -14,17 +16,21 @@ bool GDMenuLayer::Init() {
 }
 
 //From https://github.com/MikaKC/FutureDash
-void GDMenuLayer::AccountIcon() {
-
+void GDMenuLayer::AccountIcon()
+{
     int count = this->getChildrenCount();
-	for(int i = 0; i < count; i++) {
+	for(int i = 0; i < count; i++)
+	{
 		auto node = (CCNode*)this->getChildren()->objectAtIndex(i);
-		if(auto menu = dynamic_cast<CCMenu*>(node)) {
+		if(auto menu = dynamic_cast<CCMenu*>(node))
+		{
 			int menuCount = menu->getChildrenCount();
-			for(int j = 0; j <	menuCount; j++) {
+			for(int j = 0; j <	menuCount; j++)
+			{
 				auto button = (CCMenuItemSpriteExtra*)menu->getChildren()->objectAtIndex(j);
 				auto spr = (CCSprite*)button->getChildren()->objectAtIndex(0);
-				if(strcmp(SCToolBox::getTextureNameForSpriteFrame(spr), "GJ_profileButton_001.png") == 0) {
+				if(strcmp(SCToolBox::getTextureNameForSpriteFrame(spr), "GJ_profileButton_001.png") == 0)
+				{
 					auto bluebtn = CCSprite::create("SC_ProfileBtn_001.png");
 					spr->addChild(bluebtn);
 
@@ -44,8 +50,10 @@ void GDMenuLayer::AccountIcon() {
 	}
 }
 
-int GDMenuLayer::frameIcon(IconType icon) {
-	switch(icon) {
+int GDMenuLayer::frameIcon(IconType icon)
+{
+	switch(icon)
+	{
 		default: return GameManager::sharedState()->getPlayerFrame();
 		case IconType::kIconTypeShip: return GameManager::sharedState()->getPlayerShip();
 		case IconType::kIconTypeBall: return GameManager::sharedState()->getPlayerBall();

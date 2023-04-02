@@ -2,8 +2,9 @@
 
 #include "includes.h"
 
-class GDOptionsLayer : public OptionsLayer {
+class GDOptionsLayer : public OptionsLayer
+{
     public:
-        static void Hook();
-        bool Init();
+    static void Hook();
+    bool Init();
 };

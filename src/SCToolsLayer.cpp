@@ -11,7 +11,7 @@ bool SCToolsLayer::init() {
     if(!initWithColor(ccc4(0, 0, 0, 130))) return false;
 
     auto dir = CCDirector::sharedDirector();
-    auto win_size = CCDirector::sharedDirector()->getWinSize();
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
 
     float menusizeX = 210, menusizeY = 82;
     float menuposX = 62, menuposY = 52;
@@ -84,14 +84,14 @@ bool SCToolsLayer::init() {
     noclipBtn->setPosition(25, 20);
     m_pButtonMenu->addChild(noclipBtn);
 
-    //
     setTouchEnabled(true);
     setKeypadEnabled(true);
 
     return true;
 }
 
-void SCToolsLayer::openCallback(CCObject*) {
+void SCToolsLayer::openCallback(CCObject*)
+{
     auto menu = create();
     auto dir = CCDirector::sharedDirector();
     auto scene = dir->getRunningScene();
@@ -105,7 +105,8 @@ void SCToolsLayer::setLevelSpeed2(CCObject*) { SCToolBox::setLevelSpeed(0.75); S
 void SCToolsLayer::setLevelSpeed3(CCObject*) { SCToolBox::setLevelSpeed(0.5); SCToolsLayer::keyBackClicked(); }
 void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolBox::setLevelSpeed(0.25); SCToolsLayer::keyBackClicked(); }
 
-void SCToolsLayer::decLevelSpeed(bool dec) {
+void SCToolsLayer::decLevelSpeed(bool dec)
+{
     float actualSpeed = CCDirector::sharedDirector()->getScheduler()->getTimeScale();
     float v = 0.25f;
     if(dec) {
@@ -115,13 +116,15 @@ void SCToolsLayer::decLevelSpeed(bool dec) {
     }
 }
 
-void SCToolsLayer::keyBackClicked() {
+void SCToolsLayer::keyBackClicked()
+{
     FLAlertLayer::keyBackClicked();
 }
 
 void SCToolsLayer::toggleNoclip(CCObject*) { noclipToggler(); }
 
-void SCToolsLayer::noclipToggler() {
+void SCToolsLayer::noclipToggler()
+{
     noclipEnabled = !noclipEnabled;
     if(noclipEnabled) {
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20A23C), {0xE9, 0x79, 0x06, 0x00, 0x00});
@@ -132,7 +135,8 @@ void SCToolsLayer::noclipToggler() {
     }
 }
 
-void SCToolsLayer::resetOnQuit(){ 
+void SCToolsLayer::resetOnQuit()
+{ 
     std::cout << "Reset on Quit" << std::endl;
     if(noclipEnabled) noclipToggler();
     if(CCDirector::sharedDirector()->getScheduler()->getTimeScale() != 1) SCToolBox::setLevelSpeed(1);

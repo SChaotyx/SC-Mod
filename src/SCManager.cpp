@@ -4,7 +4,8 @@
 auto libBase = reinterpret_cast<uintptr_t>(GetModuleHandle("libcocos2d.dll"));
 bool StartUpChecked = false;
 
-void SCManager::StartUpCheck(){
+void SCManager::StartUpCheck()
+{
     if(StartUpChecked) return;
 
     StartUpChecked = true;
@@ -21,11 +22,10 @@ void SCManager::StartUpCheck(){
     if(hideAtts) enablePatch("6003");
     if(sliderLimit) enablePatch("6004");
     if(freewinresize) enablePatch("6005");
-
 }
 
-void SCManager::enablePatch(const char* optionKey){
-
+void SCManager::enablePatch(const char* optionKey)
+{
     if(strcmp(optionKey, "6000") == 0){  //practice music
         std::cout << "Enable Practice music" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20C925), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90});
@@ -67,7 +67,8 @@ void SCManager::enablePatch(const char* optionKey){
     }
 }
 
-void SCManager::disablePatch(const char* optionKey){ 
+void SCManager::disablePatch(const char* optionKey)
+{ 
     if(strcmp(optionKey, "6000") == 0){  //practice music
         std::cout << "Disable Practice music" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20C925), {0x0f, 0x85, 0xf7, 0x00, 0x00, 0x00});

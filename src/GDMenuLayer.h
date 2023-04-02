@@ -2,7 +2,8 @@
 
 #include "includes.h"
 
-class GDMenuLayer : public MenuLayer {
+class GDMenuLayer : public MenuLayer
+{
     public:
     SimplePlayer* AccIconBtn;
 

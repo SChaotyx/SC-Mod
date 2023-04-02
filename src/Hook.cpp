@@ -36,8 +36,8 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
     matdash::orig<&CCKeyboardDispatcher_dispatchKeyboardMSG>(self, key, down);
 }
 
-void Hooks::Load() {
-
+void Hooks::Load()
+{
     GDMenuLayer::Hook();
     GDPlayLayer::Hook();
     GDPauseLayer::Hook();
@@ -52,5 +52,4 @@ void Hooks::Load() {
 
     SCToolBox::FMOD_Channel_setPitch = reinterpret_cast<decltype(SCToolBox::FMOD_Channel_setPitch)>
         (GetProcAddress(fmodBase, "?setPitch@ChannelControl@FMOD@@QAG?AW4FMOD_RESULT@@M@Z"));
-
 }

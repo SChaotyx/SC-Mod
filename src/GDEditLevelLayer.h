@@ -2,7 +2,8 @@
 
 #include "includes.h"
 
-class GDEditLevelLayer : public EditLevelLayer {
+class GDEditLevelLayer : public EditLevelLayer
+{
 	public:
     static void Hook();
 	bool Init(GJGameLevel*);

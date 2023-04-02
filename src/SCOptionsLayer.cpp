@@ -1,7 +1,8 @@
 #include "SCOptionsLayer.h"
 #include "SCManager.h"
 
-bool SCOptionsLayer::Init() {
+bool SCOptionsLayer::Init()
+{
     if(!initWithColor(ccc4(0, 0, 0, 130))) return false;
 
     auto dir = CCDirector::sharedDirector();
@@ -43,7 +44,8 @@ bool SCOptionsLayer::Init() {
     return true;
 }
 
-void SCOptionsLayer::openCallback(CCObject*) {
+void SCOptionsLayer::openCallback(CCObject*)
+{
     auto menu = create();
     auto dir = CCDirector::sharedDirector();
     auto scene = dir->getRunningScene();
@@ -53,11 +55,13 @@ void SCOptionsLayer::openCallback(CCObject*) {
 
 }
 
-void SCOptionsLayer::keyBackClicked() {
+void SCOptionsLayer::keyBackClicked()
+{
     FLAlertLayer::keyBackClicked();
 }
 
-void SCOptionsLayer::createToggle(const char* name, const char* optionKey, const char* desc) {
+void SCOptionsLayer::createToggle(const char* name, const char* optionKey, const char* desc)
+{
     CCMenuItemToggler* toggleBtn;
     auto* const checkOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
     auto* const checkOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
@@ -65,7 +69,8 @@ void SCOptionsLayer::createToggle(const char* name, const char* optionKey, const
     float defX = -160;
     float defY = 80 - (toggleCount * 47);
     //xD
-    if(toggleCount >= 4){
+    if(toggleCount >= 4)
+    {
         defX = 25;
         defY = 80 - ((toggleCount - 4) * 47);
     }
@@ -93,25 +98,26 @@ void SCOptionsLayer::createToggle(const char* name, const char* optionKey, const
     toggleCount ++;
 }
 
-void SCOptionsLayer::onToggle(CCObject* sender){
+void SCOptionsLayer::onToggle(CCObject* sender)
+{
     sender->retain();
     auto button = static_cast<CCMenuItemSpriteExtra*>(sender);
     SCOptionsLayer::SettingToggler(static_cast<CCString*>(button->getUserData())->getCString());
 }
 
-CCSprite* SCOptionsLayer::toggleCheck(CCSprite* onSprite, CCSprite* offSprite, const char* optionKey) {
+CCSprite* SCOptionsLayer::toggleCheck(CCSprite* onSprite, CCSprite* offSprite, const char* optionKey)
+{
     bool GVariable = GameManager::sharedState()->getGameVariable(optionKey);
     return (GVariable) ? onSprite : offSprite;
 }
 
-void SCOptionsLayer::SettingToggler(const char* optionKey) {
+void SCOptionsLayer::SettingToggler(const char* optionKey)
+{
     bool GVariable = GameManager::sharedState()->getGameVariable(optionKey);
     GVariable = !GVariable;
     if(GVariable) {
-        //std::cout << "Gamevariable Enable Action in " << optionKey << std::endl;
         SCManager::enablePatch(optionKey);
     } else {
-        //std::cout << "Gamevariable Disable Action in " << optionKey << std::endl;
         SCManager::disablePatch(optionKey);
     }
     GameManager::sharedState()->setGameVariable(optionKey, GVariable);

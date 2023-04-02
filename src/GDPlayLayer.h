@@ -2,7 +2,8 @@
 
 #include "includes.h"
 
-class GDPlayLayer : public PlayLayer {
+class GDPlayLayer : public PlayLayer
+{
     public:
     static void Hook();
     bool onQuit();

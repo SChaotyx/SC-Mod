@@ -2,6 +2,7 @@
 
 #include "includes.h"
 
-namespace Hooks { 
+namespace Hooks
+{ 
     void Load();
 };

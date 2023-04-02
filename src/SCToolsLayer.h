@@ -2,11 +2,14 @@
 
 #include "includes.h"
 
-class SCToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol {
+class SCToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol
+{
     public:
-    static SCToolsLayer* create() {
+    static SCToolsLayer* create()
+    {
         auto pRet = new SCToolsLayer();
-        if(pRet && pRet->init()) {
+        if(pRet && pRet->init())
+        {
             pRet->autorelease();
             return pRet;
         }
@@ -19,9 +22,7 @@ class SCToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol {
     void closeCallback(CCObject*) { keyBackClicked(); }
 
     void keyBackClicked();
-    void keyDown(enumKeyCodes key) {
-        if (key == 27) keyBackClicked();
-    }
+    void keyDown(enumKeyCodes key) { if (key == 27) keyBackClicked(); }
 
     void setLevelSpeed1(CCObject*);
     void setLevelSpeed2(CCObject*);

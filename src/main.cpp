@@ -9,7 +9,8 @@
 
 #include "Hooks.h"
 
-void mod_main(HMODULE) {
+void mod_main(HMODULE)
+{
 
     #ifdef DEBUG
         matdash::create_console();
