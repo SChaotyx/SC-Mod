@@ -6,6 +6,7 @@
 #include "GDPlayLayer.h"
 #include "GDLevelCompleteLayer.h"
 #include "GDOptionsLayer.h"
+#include "GDLevelInfoLayer.h"
 
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
@@ -42,6 +43,7 @@ void Hooks::Load() {
     GDPauseLayer::Hook();
     GDLevelCompleteLayer::Hook();
     GDEditLevelLayer::Hook();
+    GDLevelInfoLayer::Hook();
     GDOptionsLayer::Hook();
 
     // from https://github.com/matcool/ReplayBot
