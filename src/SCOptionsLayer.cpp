@@ -33,10 +33,11 @@ bool SCOptionsLayer::Init()
     SCOptionsLayer::createToggle("No Transition", "6001", "Shorterns scene transition time to 0s.");
     SCOptionsLayer::createToggle("Text Bypass", "6002", "Allows for unlimited text length in text inputs & Lets you input any character in all text inputs.");
     SCOptionsLayer::createToggle("Hide Attempts", "6003", "Hides the attempt count in-game.");
-    SCOptionsLayer::createToggle("Slider Limit", "6004", "Lets sliders be dragged beyond the visible limit.");
+    SCOptionsLayer::createToggle("No Slider Limit", "6004", "Lets sliders be dragged beyond the visible limit.");
     SCOptionsLayer::createToggle("Free Window Resize", "6005", "Removes limits in place for window resizing.");
     //SCOptionsLayer::createToggle("Disable SC-Mod Options", "6006", "Recommended if you have Mega Hack or some other mod menu.");
-    SCOptionsLayer::createToggle("Disable Keybinds", "6007", "Disable keybinds during gameplay");
+    SCOptionsLayer::createToggle("No Speedhack Music", "6008", "Speedhack affects music.");
+    SCOptionsLayer::createToggle("Disable Keybinds", "6007", "Disable keybinds during gameplay.");
     
     setTouchEnabled(true);
     setKeypadEnabled(true);
