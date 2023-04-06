@@ -2,7 +2,7 @@
 
 #include "includes.h"
 
-class GDLevelCompleteLayer : public GJDropDownLayer
+class GDEndLevelLayer : public GJDropDownLayer
 {
     public:
     static void Hook();

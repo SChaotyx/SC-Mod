@@ -1,14 +1,14 @@
-#include "GDLevelCompleteLayer.h"
+#include "GDEndLevelLayer.h"
 #include "GDPauseLayer.h"
 
-void GDLevelCompleteLayer::Hook()
+void GDEndLevelLayer::Hook()
 {
     matdash::add_hook<&Init>(base + 0x94CB0); //94CB0
 }
 
-bool GDLevelCompleteLayer::Init()
+bool GDEndLevelLayer::Init()
 {
-    matdash::orig<&GDLevelCompleteLayer::Init>(this);
+    matdash::orig<&GDEndLevelLayer::Init>(this);
 
     CCDirector *dir = CCDirector::sharedDirector();
 	auto winSize = CCDirector::sharedDirector()->getWinSize();

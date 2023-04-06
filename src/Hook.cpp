@@ -4,7 +4,7 @@
 #include "GDEditLevelLayer.h"
 #include "GDPauseLayer.h"
 #include "GDPlayLayer.h"
-#include "GDLevelCompleteLayer.h"
+#include "GDEndLevelLayer.h"
 #include "GDOptionsLayer.h"
 #include "GDLevelInfoLayer.h"
 
@@ -41,7 +41,7 @@ void Hooks::Load()
     GDMenuLayer::Hook();
     GDPlayLayer::Hook();
     GDPauseLayer::Hook();
-    GDLevelCompleteLayer::Hook();
+    GDEndLevelLayer::Hook();
     GDEditLevelLayer::Hook();
     GDLevelInfoLayer::Hook();
     GDOptionsLayer::Hook();
