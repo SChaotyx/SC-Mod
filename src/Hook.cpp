@@ -7,6 +7,7 @@
 #include "GDEndLevelLayer.h"
 #include "GDOptionsLayer.h"
 #include "GDLevelInfoLayer.h"
+#include "GDGameSoundManager.h"
 
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
@@ -16,7 +17,7 @@ static auto fmodBase = GetModuleHandleA("fmod.dll");
 
 void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int key, bool down) {
     if (down && !GameManager::sharedState()->getGameVariable("6007")) {
-        if(auto play_layer = gd::GameManager::sharedState()->getPlayLayer()){
+        if(auto play_layer = GameManager::sharedState()->getPlayLayer()){
             if(!play_layer->m_hasCompletedLevel && !play_layer->m_bIsPaused) {
                 if(play_layer->get()->m_level->m_eLevelType == 2){
                     if (key == 'N') {
@@ -45,6 +46,7 @@ void Hooks::Load()
     GDEditLevelLayer::Hook();
     GDLevelInfoLayer::Hook();
     GDOptionsLayer::Hook();
+    GDGameSoundManager::Hook();
 
     // from https://github.com/matcool/ReplayBot
     matdash::add_hook<&CCKeyboardDispatcher_dispatchKeyboardMSG>
