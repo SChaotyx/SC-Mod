@@ -19,7 +19,7 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
     if (down && !GameManager::sharedState()->getGameVariable("6007")) {
         if(auto play_layer = GameManager::sharedState()->getPlayLayer()){
             if(!play_layer->m_hasCompletedLevel && !play_layer->m_bIsPaused) {
-                if(play_layer->get()->m_level->m_eLevelType == 2){
+                if(play_layer->get()->m_level->m_eLevelType == kGJLevelTypeEditor){
                     if (key == 'N') {
                         SCToolsLayer::noclipToggler();
                     } else if (key == 'M') {

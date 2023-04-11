@@ -40,7 +40,7 @@ bool GDOptionsLayer::Init()
 				menuMusicToggle->setScale(0.7f);
 				menu->addChild(menuMusicToggle);
 				
-				auto label = CCLabelBMFont::create("Menu\nmusic", "bigFont.fnt", 90, kCCTextAlignmentLeft);
+				auto label = CCLabelBMFont::create("Menu\nMusic", "bigFont.fnt", 90, kCCTextAlignmentCenter);
 				label->setPosition(140, -75 + 30);
 				label->setScale(0.4f);
 				menu->addChild(label);

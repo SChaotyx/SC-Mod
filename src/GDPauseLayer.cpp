@@ -25,16 +25,6 @@ bool GDPauseLayer::Init()
 	optBtn->setScale(0.80f);
 	optBtn->m_fBaseScale = 0.80f;
 	menu->addChild(optBtn);
-
-	if(PlayLayer::get()->m_level->m_eLevelType == 2 )
-	{
-		sprite = CCSprite::createWithSpriteFrameName("GJ_plusBtn_001.png");
-		auto COptBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::openCallback));
-		COptBtn->setPosition(50, 40);
-		COptBtn->setScale(0.85f);
-		COptBtn->m_fBaseScale = 0.85f;
-		menu->addChild(COptBtn);
-	}
 	
 	if(PlayLayer::get()->m_level->m_nLevelID)
 	{
@@ -51,17 +41,25 @@ bool GDPauseLayer::Init()
 		ldbrBtn->setScale(0.85f);
 		ldbrBtn->m_fBaseScale = 0.85f;
 		menu->addChild(ldbrBtn);
-
-		if (PlayLayer::get()->m_level->m_eLevelType != 2 )
-		{
-			sprite = CCSprite::create("SC_QuestBtn_001.png");
-			auto challBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(GDPauseLayer::challengesLayer));
-    		challBtn->setPosition(winSize.width - 50, winSize.height - 175);
-			challBtn->setScale(0.85f);
-			challBtn->m_fBaseScale = 0.85f;
-			menu->addChild(challBtn);
-		}
 	}
+
+	if(PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor )
+	{
+		sprite = CCSprite::createWithSpriteFrameName("GJ_plusBtn_001.png");
+		auto COptBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::openCallback));
+		COptBtn->setPosition(50, 40);
+		COptBtn->setScale(0.85f);
+		COptBtn->m_fBaseScale = 0.85f;
+		menu->addChild(COptBtn);
+	} else {
+		sprite = CCSprite::create("SC_QuestBtn_001.png");
+		auto challBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(GDPauseLayer::challengesLayer));
+    	challBtn->setPosition(winSize.width - 50, winSize.height - 175);
+		challBtn->setScale(0.85f);
+		challBtn->m_fBaseScale = 0.85f;
+		menu->addChild(challBtn);
+	}
+
 	this->addChild(menu);
     return true;
 }
@@ -110,7 +108,7 @@ bool GDPauseLayer::onResume(PlayLayer* self)
 
 bool GDPauseLayer::onEditor(PlayLayer* self)
 {
-	if(PlayLayer::get()->m_level->m_eLevelType == 2 ) SCToolsLayer::resetOnQuit();
+	if(PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor ) SCToolsLayer::resetOnQuit();
     matdash::orig<&GDPauseLayer::onEditor>(this, self);
 	return true;
 }

@@ -12,14 +12,14 @@ void GDPlayLayer::Hook()
 bool GDPlayLayer::onQuit()
 {
     matdash::orig<&GDPlayLayer::onQuit>(this);
-	if(PlayLayer::get()->m_level->m_eLevelType == 2 ) SCToolsLayer::resetOnQuit();
+	if(PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor ) SCToolsLayer::resetOnQuit();
     return true;
 }
 
 bool GDPlayLayer::onLevelComplete()
 {
     matdash::orig<&GDPlayLayer::onLevelComplete>(this);
-	if(PlayLayer::get()->m_level->m_eLevelType == 2 ) SCToolsLayer::resetOnQuit();
+	if(PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor ) SCToolsLayer::resetOnQuit();
     return true;
 }
 
