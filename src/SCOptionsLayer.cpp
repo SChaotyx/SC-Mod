@@ -51,6 +51,11 @@ bool SCOptionsLayer::Init()
     btn->setPosition(120, 120);
     m_pButtonMenu->addChild(btn);
 
+    label = CCLabelBMFont::create("v1.2.8", "bigFont.fnt");
+    label->setScale(0.4f);
+    label->setPosition(165, -125);
+    m_pButtonMenu->addChild(label);
+
     SCOptionsLayer::createToggle("Practice Music", "6000", "Plays the level's song in-sync with your position, instead of the standard practice song.");
     SCOptionsLayer::createToggle("No Transition", "6001", "Shorterns scene transition time to 0s.");
     SCOptionsLayer::createToggle("Text Bypass", "6002", "Allows for unlimited text length in text inputs & Lets you input any character in all text inputs.");
