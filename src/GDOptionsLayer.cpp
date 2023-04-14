@@ -22,9 +22,9 @@ bool GDOptionsLayer::Init()
 		{
 			if(menu->getChildrenCount() > 1)
 			{
-				auto sprite = CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png");
+				auto sprite = CCSprite::create("SC_optionsBtn_001.png");
 				auto optBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCOptionsLayer::openCallback));
-				optBtn->setPosition(225, -85);
+				optBtn->setPosition(-140, -70);
 				optBtn->setScale(0.8f);
 				optBtn->m_fBaseScale = 0.8f;
 				menu->addChild(optBtn);

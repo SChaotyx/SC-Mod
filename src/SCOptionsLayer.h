@@ -29,4 +29,7 @@ class SCOptionsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol
     void onToggle(CCObject*);
     CCSprite* toggleCheck(CCSprite*, CCSprite*, const char*);
     void SettingToggler(const char*);
+    void toggleInfo(CCObject*);
+    void keysInfo(CCObject*);
+    void onSCProfile(CCObject*);
 };
