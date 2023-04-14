@@ -37,7 +37,8 @@ bool SCToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed1));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed));
+    btn->setTag(1);
     btn->setPosition(30, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -47,7 +48,8 @@ bool SCToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed2));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed));
+    btn->setTag(2);
     btn->setPosition(30 + 50, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -57,7 +59,8 @@ bool SCToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed3));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed));
+    btn->setTag(3);
     btn->setPosition(30 + 100, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -67,7 +70,8 @@ bool SCToolsLayer::init() {
     label->setScale(0.5f);
     label->setPosition(40,42);
     sprite->addChild(label);
-    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed4));
+    btn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::setLevelSpeed));
+    btn->setTag(4);
     btn->setPosition(30 + 150, menusizeY - 30);
     m_pButtonMenu->addChild(btn);
 
@@ -100,10 +104,20 @@ void SCToolsLayer::openCallback(CCObject*)
     dir->getTouchDispatcher()->incrementForcePrio(2);
 }
 
-void SCToolsLayer::setLevelSpeed1(CCObject*) { SCToolBox::setLevelSpeed(1); SCToolsLayer::keyBackClicked(); }
-void SCToolsLayer::setLevelSpeed2(CCObject*) { SCToolBox::setLevelSpeed(0.75); SCToolsLayer::keyBackClicked(); }
-void SCToolsLayer::setLevelSpeed3(CCObject*) { SCToolBox::setLevelSpeed(0.5); SCToolsLayer::keyBackClicked(); }
-void SCToolsLayer::setLevelSpeed4(CCObject*) { SCToolBox::setLevelSpeed(0.25); SCToolsLayer::keyBackClicked(); }
+void SCToolsLayer::setLevelSpeed(CCObject* pSender)
+{
+    float lvlSpeed;
+    switch(pSender->getTag())
+    {
+        case 1: lvlSpeed = 1; break;
+        case 2: lvlSpeed = 0.75; break;
+        case 3: lvlSpeed = 0.5; break;
+        case 4: lvlSpeed = 0.25; break;
+        default: lvlSpeed = 1; break;
+    }
+    SCToolBox::setLevelSpeed(lvlSpeed);
+    SCToolsLayer::keyBackClicked();
+}
 
 void SCToolsLayer::decLevelSpeed(bool dec)
 {

@@ -24,10 +24,7 @@ class SCToolsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol
     void keyBackClicked();
     void keyDown(enumKeyCodes key) { if (key == 27) keyBackClicked(); }
 
-    void setLevelSpeed1(CCObject*);
-    void setLevelSpeed2(CCObject*);
-    void setLevelSpeed3(CCObject*);
-    void setLevelSpeed4(CCObject*);
+    void setLevelSpeed(CCObject*);
     static void decLevelSpeed(bool);
     static void applyLevelSpeed(float);
 
