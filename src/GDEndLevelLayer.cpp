@@ -39,7 +39,7 @@ bool GDEndLevelLayer::Init()
 					ldbrBtn->m_fBaseScale = 0.85f;
 					menu->addChild(ldbrBtn);
 
-					if (!PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor )
+					if (PlayLayer::get()->m_level->m_eLevelType != kGJLevelTypeEditor)
 					{
 						sprite =CCSprite::create("SC_QuestBtn_001.png");
 						auto challBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(GDPauseLayer::challengesLayer));

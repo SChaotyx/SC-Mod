@@ -37,6 +37,10 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
     matdash::orig<&CCKeyboardDispatcher_dispatchKeyboardMSG>(self, key, down);
 }
 
+void CCScheduler_update(CCScheduler* self, float dt) {
+    matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, dt);
+}
+
 void Hooks::Load()
 {
     GDMenuLayer::Hook();
@@ -51,6 +55,9 @@ void Hooks::Load()
     // from https://github.com/matcool/ReplayBot
     matdash::add_hook<&CCKeyboardDispatcher_dispatchKeyboardMSG>
         (GetProcAddress(libcocos, "?dispatchKeyboardMSG@CCKeyboardDispatcher@cocos2d@@QAE_NW4enumKeyCodes@2@_N@Z"));
+
+    matdash::add_hook<&CCScheduler_update, matdash::Thiscall>
+        (GetProcAddress(libcocos, "?update@CCScheduler@cocos2d@@UAEXM@Z"));
 
     SCToolBox::FMOD_Channel_setPitch = reinterpret_cast<decltype(SCToolBox::FMOD_Channel_setPitch)>
         (GetProcAddress(fmodBase, "?setPitch@ChannelControl@FMOD@@QAG?AW4FMOD_RESULT@@M@Z"));

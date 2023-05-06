@@ -51,7 +51,7 @@ bool SCOptionsLayer::Init()
     btn->setPosition(120, 120);
     m_pButtonMenu->addChild(btn);
 
-    label = CCLabelBMFont::create("v1.2.8", "bigFont.fnt");
+    label = CCLabelBMFont::create("v1.3.0 beta", "bigFont.fnt");
     label->setScale(0.4f);
     label->setPosition(165, -125);
     m_pButtonMenu->addChild(label);

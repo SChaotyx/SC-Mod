@@ -1,6 +1,7 @@
 #include "GDPauseLayer.h"
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
+#include "SCReplayLayer.h"
 
 void GDPauseLayer::Hook()
 {
@@ -21,10 +22,17 @@ bool GDPauseLayer::Init()
 
 	auto sprite = CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png");
 	auto optBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(GDPauseLayer::optionsLayer));
-	optBtn->setPosition(winSize.width - 50, 40);
+	optBtn->setPosition(50, winSize.height - 85);
 	optBtn->setScale(0.80f);
 	optBtn->m_fBaseScale = 0.80f;
 	menu->addChild(optBtn);
+
+	sprite = CCSprite::create("SC_ReplayBtn_001.png");
+	auto replayBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCReplayLayer::openCallback));
+	replayBtn->setPosition(50, winSize.height - 130);
+	replayBtn->setScale(0.85f);
+	replayBtn->m_fBaseScale = 0.85f;
+	menu->addChild(replayBtn);
 	
 	if(PlayLayer::get()->m_level->m_nLevelID)
 	{
@@ -47,7 +55,7 @@ bool GDPauseLayer::Init()
 	{
 		sprite = CCSprite::createWithSpriteFrameName("GJ_plusBtn_001.png");
 		auto COptBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCToolsLayer::openCallback));
-		COptBtn->setPosition(50, 40);
+		COptBtn->setPosition(50, winSize.height - 175);
 		COptBtn->setScale(0.85f);
 		COptBtn->m_fBaseScale = 0.85f;
 		menu->addChild(COptBtn);
