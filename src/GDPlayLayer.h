@@ -17,4 +17,5 @@ class GDPlayLayer : public PlayLayer
 
     static void onPushButton(PlayLayer*, int, bool);
     static void onReleaseButton(PlayLayer*, int, bool);
+    CCObject* createCheckpoint();
 };

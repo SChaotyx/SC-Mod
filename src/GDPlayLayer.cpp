@@ -2,6 +2,7 @@
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
 #include "SCReplay.h"
+#include "SCPracticefix.h"
 
 void GDPlayLayer::Hook()
 {
@@ -12,6 +13,7 @@ void GDPlayLayer::Hook()
     matdash::add_hook<&GDPlayLayer::onPauseGame>(base + 0x20D3C0);
     matdash::add_hook<&GDPlayLayer::onReset>(base + 0x20BF00);
     matdash::add_hook<&GDPlayLayer::onQuit>(base + 0x20D810);
+    matdash::add_hook<&GDPlayLayer::createCheckpoint, matdash::Optcall>(base + 0x20ddd0);
 
     matdash::add_hook<&GDPlayLayer::onPushButton>(base + 0x111500);
     matdash::add_hook<&GDPlayLayer::onReleaseButton>(base + 0x111660);
@@ -77,4 +79,8 @@ void GDPlayLayer::onReleaseButton(PlayLayer* self, int idk, bool button)
     if(idk == 1) return matdash::orig<&GDPlayLayer::onReleaseButton>(self, idk, button);
     if (SCReplaySystem::recordHandler(false, button)) return;
     matdash::orig<&GDPlayLayer::onReleaseButton>(self, idk, button);
+}
+
+CCObject* GDPlayLayer::createCheckpoint() {
+    return SCCheckpointObject::create();
 }

@@ -15,8 +15,8 @@ bool SCReplaySystem::recordHandler(bool hold, bool button)
 void SCReplaySystem::playHandler()
 {
     auto& RS = SCReplaySystem::get();
-    if(!RS.state) return;
-    if(RS.state == 2) {
+    if(RS.state == ReplayState::NONE) return;
+    if(RS.state == ReplayState::PLAYING) {
         RS.playAction();
         return;
     }
@@ -48,11 +48,9 @@ void SCReplaySystem::playAction()
         if (action.hold) {
             std::cout << "action N: " << action_index << " frame " << action.frame << " hold " << std::endl;
             reinterpret_cast<void(__thiscall*)(PlayLayer*, int, bool)>(base + 0x111500)(PL, 1, !action.holdP2 ^ flip);
-            //matdash::orig<&GDPlayLayer::onPushButton>(PL, 0, !action.holdP2 ^ flip);
         } else {
             std::cout << "action N: " << action_index << " frame " << action.frame << " release " << std::endl;
             reinterpret_cast<void(__thiscall*)(PlayLayer*, int, bool)>(base + 0x111660)(PL, 1, !action.holdP2 ^ flip);
-            //matdash::orig<&GDPlayLayer::onReleaseButton>(PL, 0, !action.holdP2 ^ flip);
         }
         ++action_index;
     }
@@ -61,9 +59,35 @@ void SCReplaySystem::playAction()
 unsigned SCReplaySystem::getFrame()
 {
     auto PL = GameManager::sharedState()->getPlayLayer();
-    if (PL != nullptr) return static_cast<unsigned>(PL->m_time * 60);
+    if (PL != nullptr) return static_cast<unsigned>(PL->m_time * 60) + frameOffset;
     return 0;
 }
+
+void SCReplaySystem::onReset()
+{
+    if(isPlaying()) {
+        action_index = 0;
+        frameOffset = 0;
+    } else if(isRecording()) {
+        auto PL = GameManager::sharedState()->getPlayLayer();
+        bool hasCheckpoints = PL->m_checkpoints->count();
+        const auto checkpoint = practiceFix.getLastCheckpoint();
+        const auto& actions = SCReplay.getActions();
+        if (!hasCheckpoints) {
+            frameOffset = 0;
+            SCReplay.removeActions(getFrame());
+        } else {
+            frameOffset = checkpoint.frame;
+            if (actions.back().hold) {
+                SCReplay.removeActions(getFrame());
+                recordAction(true, true);
+            }
+        }
+    }
+}
+
+
+
 
 template <typename T, typename R>
 T cast(R const v) { return reinterpret_cast<T>(v); }
@@ -140,6 +164,3 @@ void SCReplay::removeActions(unsigned frame)
     };
 	actions.erase(std::remove_if(actions.begin(), actions.end(), check), actions.end());
 }
-
-
-

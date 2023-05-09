@@ -1,6 +1,6 @@
 #pragma once
-
 #include "includes.h"
+#include "SCPracticeFix.h"
 
 enum ReplayState
 {
@@ -36,6 +36,8 @@ class SCReplaySystem
     SCReplay SCReplay;
     ReplayState state = NONE;
     size_t action_index = 0;
+    SCPracticeFix practiceFix;
+    unsigned frameOffset;
 
     public:
     static auto& get() { static SCReplaySystem instance; return instance; }
@@ -51,11 +53,9 @@ class SCReplaySystem
 
     inline auto& getReplay() { return SCReplay; }
     unsigned getFrame();
+    inline auto& getPracticeFix() { return practiceFix; }
 
     void setReplayMode(ReplayState newState) { state = newState; }
-    void onReset() {
-        action_index = 0;
-        if(state == RECORDING) SCReplay.removeActions(0);
-    }
+    void onReset();
 
 };
