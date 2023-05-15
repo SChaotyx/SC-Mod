@@ -11,6 +11,7 @@
 
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
+#include "SCReplay.h"
 
 static auto libcocos = GetModuleHandleA("libcocos2d.dll");
 static auto fmodBase = GetModuleHandleA("fmod.dll");
@@ -36,9 +37,14 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
     }
     matdash::orig<&CCKeyboardDispatcher_dispatchKeyboardMSG>(self, key, down);
 }
-
 void CCScheduler_update(CCScheduler* self, float dt) {
-    matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, dt);
+    auto& RS = SCReplaySystem::get();
+    if(RS.isPlaying()) {
+        const float target_dt = 1.f / 60 / 1.f;
+        return matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, target_dt);
+    } else {
+        return matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, dt);
+    }
 }
 
 void Hooks::Load()
