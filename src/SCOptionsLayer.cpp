@@ -1,5 +1,6 @@
 #include "SCOptionsLayer.h"
 #include "SCManager.h"
+#include "nfd.hpp"
 
 bool SCOptionsLayer::Init()
 {
@@ -154,20 +155,20 @@ void SCOptionsLayer::onToggle(CCObject* sender)
 
 CCSprite* SCOptionsLayer::toggleCheck(CCSprite* onSprite, CCSprite* offSprite, const char* optionKey)
 {
-    bool GVariable = GameManager::sharedState()->getGameVariable(optionKey);
+    bool GVariable = SCManager::getSCModVariable(optionKey);
     return (GVariable) ? onSprite : offSprite;
 }
 
 void SCOptionsLayer::SettingToggler(const char* optionKey)
 {
-    bool GVariable = GameManager::sharedState()->getGameVariable(optionKey);
+    bool GVariable = SCManager::getSCModVariable(optionKey);
     GVariable = !GVariable;
     if(GVariable) {
         SCManager::enablePatch(optionKey);
     } else {
         SCManager::disablePatch(optionKey);
     }
-    GameManager::sharedState()->setGameVariable(optionKey, GVariable);
+    SCManager::setSCModVariable(optionKey, GVariable);
 }
 
 void SCOptionsLayer::toggleInfo(CCObject* sender)

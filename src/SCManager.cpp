@@ -9,12 +9,12 @@ void SCManager::StartUpCheck()
     if(StartUpChecked) return;
 
     StartUpChecked = true;
-    bool practiceMusic = GameManager::sharedState()->getGameVariable("6000");
-    bool noTransition = GameManager::sharedState()->getGameVariable("6001");
-    bool textByPass = GameManager::sharedState()->getGameVariable("6002");
-    bool hideAtts = GameManager::sharedState()->getGameVariable("6003");
-    bool sliderLimit = GameManager::sharedState()->getGameVariable("6004");
-    bool freewinresize = GameManager::sharedState()->getGameVariable("6005");
+    bool practiceMusic = SCManager::getSCModVariable("6000");
+    bool noTransition = SCManager::getSCModVariable("6001");
+    bool textByPass = SCManager::getSCModVariable("6002");
+    bool hideAtts = SCManager::getSCModVariable("6003");
+    bool sliderLimit = SCManager::getSCModVariable("6004");
+    bool freewinresize = SCManager::getSCModVariable("6005");
 
     if(practiceMusic) enablePatch("6000");
     if(noTransition) enablePatch("6001");
@@ -109,7 +109,98 @@ void SCManager::disablePatch(const char* optionKey)
         return;
     }
 }
+// save file stuff
 
- //song bypass
-    //SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2CDF44), {0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x61, 0x62, 0x73, 0x6F, 0x6C, 0x6C, 0x6C, 0x75, 0x74, 0x65, 0x2E, 0x63, 0x6F, 0x6D, 0x2F, 0x61, 0x70, 0x69, 0x2F, 0x67, 0x64, 0x5F, 0x73, 0x6F, 0x6E, 0x67, 0x5F, 0x62, 0x79, 0x70, 0x61, 0x73, 0x73, 0x00});
-    //SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2CDF44), {0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x62, 0x6F, 0x6F, 0x6D, 0x6C, 0x69, 0x6E, 0x67, 0x73, 0x2E, 0x63, 0x6F, 0x6D, 0x2F, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2F, 0x67, 0x65, 0x74, 0x47, 0x4A, 0x53, 0x6F, 0x6E, 0x67, 0x49, 0x6E, 0x66, 0x6F, 0x2E, 0x70, 0x68, 0x70, 0x00});
+std::filesystem::path getSaveFilePath() {
+    const auto path = CCFileUtils::sharedFileUtils()->getWritablePath();
+    return std::filesystem::path(path) / "SCModManager.dat"; //xD
+}
+
+inline std::pair<std::string, std::string> splitKey(const std::string str, char split) {
+	const auto n = str.find(split);
+	return { str.substr(0, n), str.substr(n + 1) };
+}
+
+void createSaveFile()
+{
+    std::cout << "generate savefile" << std::endl;
+    const auto path = getSaveFilePath();
+    std::ofstream file(path);
+}
+
+std::vector<std::string> getSaveFile()
+{
+    const auto path = getSaveFilePath();
+    if (!std::filesystem::exists(path)) createSaveFile();
+    std::ifstream file(path);
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(file, line)) {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
+void saveCfgFile(std::vector<std::string> file)
+{
+    const auto path = getSaveFilePath();
+    std::ofstream savefile(path);
+    size_t pos = 0;
+    while(pos < file.size()) {
+        savefile << file[pos] << "\n";
+        pos++;
+    }
+}
+
+void SCManager::setSCModVariable(std::string key, bool value)
+{
+    std::string tostr = value ? "true" : "false";
+    SCManager::setSCModString(key, tostr);
+}
+
+void SCManager::setSCModString(std::string key, std::string value)
+{
+    std::vector<std::string> saveFile = getSaveFile();
+    size_t pos = 0;
+    bool isfound = false;
+    while (pos < saveFile.size()) {
+        const auto [orikey, valuex] = splitKey(saveFile[pos], '=');
+        if (key == orikey) {
+            isfound = true;
+            saveFile[pos] = key + "=" + value;
+        }
+        pos++;
+    }
+
+    if(!isfound) saveFile.push_back(key + "=" + value);
+    
+    saveCfgFile(saveFile);
+}
+
+bool SCManager::getSCModVariable(std::string key)
+{
+    std::vector<std::string> saveFile = getSaveFile();
+    size_t pos = 0;
+    while (pos < saveFile.size()) {
+        const auto [orikey, value] = splitKey(saveFile[pos], '=');
+        if (key == orikey) {
+            return value == "true";
+        }
+        pos++;
+    }
+    return false;
+}
+
+std::string SCManager::getSCModString(std::string key)
+{
+    std::vector<std::string> saveFile = getSaveFile();
+    size_t pos = 0;
+    while (pos < saveFile.size()) {
+        const auto [orikey, value] = splitKey(saveFile[pos], '=');
+        if (key == orikey) {
+            return value;
+        }
+        pos++;
+    }
+    return false;
+}
