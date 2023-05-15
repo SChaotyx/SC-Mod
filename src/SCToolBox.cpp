@@ -1,4 +1,5 @@
 #include "SCToolBox.h"
+#include "SCManager.h"
 #include "SCToolsLayer.h"
 
 
@@ -46,7 +47,7 @@ void SCToolBox::setLevelSpeed(float levelSpeed)
 {
 	auto dir = CCDirector::sharedDirector();
     dir->getScheduler()->setTimeScale(levelSpeed);
-    if(!GameManager::sharedState()->getGameVariable("6008")) SCToolBox::setSongPitch(levelSpeed);
+    if(!SCManager::getSCModVariable("6008")) SCToolBox::setSongPitch(levelSpeed);
     std::cout << "set time scale to: " << levelSpeed << std::endl;
 }
 

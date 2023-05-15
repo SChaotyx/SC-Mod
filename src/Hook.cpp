@@ -9,6 +9,7 @@
 #include "GDLevelInfoLayer.h"
 #include "GDGameSoundManager.h"
 
+#include "SCManager.h"
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
 #include "SCReplay.h"
@@ -17,7 +18,7 @@ static auto libcocos = GetModuleHandleA("libcocos2d.dll");
 static auto fmodBase = GetModuleHandleA("fmod.dll");
 
 void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int key, bool down) {
-    if (down && !GameManager::sharedState()->getGameVariable("6007")) {
+    if (down && !SCManager::getSCModVariable("6007")) {
         if(auto play_layer = GameManager::sharedState()->getPlayLayer()){
             if(!play_layer->m_hasCompletedLevel && !play_layer->m_bIsPaused) {
                 if(play_layer->get()->m_level->m_eLevelType == kGJLevelTypeEditor){
