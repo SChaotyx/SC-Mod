@@ -52,7 +52,7 @@ bool SCOptionsLayer::Init()
     btn->setPosition(120, 120);
     m_pButtonMenu->addChild(btn);
 
-    label = CCLabelBMFont::create("v1.3.0 beta", "bigFont.fnt");
+    label = CCLabelBMFont::create("v1.3.0 b2", "bigFont.fnt");
     label->setScale(0.4f);
     label->setPosition(165, -125);
     m_pButtonMenu->addChild(label);
@@ -66,7 +66,8 @@ bool SCOptionsLayer::Init()
 
     SCOptionsLayer::createToggle("No Speedhack Music", "6008", "Speedhack affects music.");
     SCOptionsLayer::createToggle("Disable Keybinds", "6007", "Disable SC-Mod keybinds during gameplay.");
-    
+    SCOptionsLayer::createToggle("Custom Song Folder", "6009", "Set your custom song folder.[unfinished: download/detect song to custom folder]");
+
     setTouchEnabled(true);
     setKeypadEnabled(true);
 
@@ -196,4 +197,15 @@ void SCOptionsLayer::keysInfo(CCObject*)
 void SCOptionsLayer::onSCProfile(CCObject*)
 {
     ProfilePage::create(4916065, false)->show();
+}
+
+void SCOptionsLayer::setSongFolder()
+{
+    NFD::UniquePath outPath;
+    nfdresult_t result = NFD::PickFolder(outPath);
+    if (result == NFD_OKAY) {
+        SCManager::setSCModString("6010", outPath.get());
+        std::cout << "Success!" << std::endl << outPath.get() << std::endl;
+        std::cout << SCManager::getSCModString("6010") << std::endl;
+    }
 }

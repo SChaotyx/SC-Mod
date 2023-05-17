@@ -1,5 +1,6 @@
 #include "SCManager.h"
 #include "SCToolBox.h"
+#include "SCOptionsLayer.h"
 
 auto libBase = reinterpret_cast<uintptr_t>(GetModuleHandle("libcocos2d.dll"));
 bool StartUpChecked = false;
@@ -64,6 +65,9 @@ void SCManager::enablePatch(const char* optionKey)
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x1133C6), {0x48});
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x112536), {0xEB, 0x11, 0x90});
         return;
+    }
+    if(strcmp(optionKey, "6009") == 0){
+        return SCOptionsLayer::setSongFolder();
     }
 }
 

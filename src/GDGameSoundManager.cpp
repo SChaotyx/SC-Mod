@@ -1,4 +1,7 @@
 #include "GDGameSoundManager.h"
+#include "SCManager.h"
+#include <vector>
+#include <string>
 
 void GDGameSoundManager::Hook()
 {
@@ -7,10 +10,31 @@ void GDGameSoundManager::Hook()
 
 void GDGameSoundManager::playBGMusic(bool idk, bool idk2, std::string path)
 {
-    matdash::orig<&GDGameSoundManager::playBGMusic>(this, idk, idk2, path);
+    if(SCManager::getSCModVariable("6009")){
+        int posInit = 0;
+        int posFound = 0;
+        std::string splitted;
+        std::vector<std::string> results;
+        while(posFound >= 0){
+            posFound = path.find('\\', posInit);
+            splitted = path.substr(posInit, posFound - posInit);
+            posInit = posFound + 1;
+            results.push_back(splitted);
+        }
+        if(results.size() > 1){
+            auto custompath = SCManager::getSCModString("6010") + '\\' + results[results.size() - 1];
+            std::cout << custompath << std::endl;
+
+            matdash::orig<&GDGameSoundManager::playBGMusic>(this, idk, idk2, custompath);
+        } else {
+            matdash::orig<&GDGameSoundManager::playBGMusic>(this, idk, idk2, path);
+        }
+    } else {
+        matdash::orig<&GDGameSoundManager::playBGMusic>(this, idk, idk2, path);
+    }
 
     if (FMODAudioEngine::sharedEngine()->isBackgroundMusicPlaying(std::string("menuLoop.mp3"))) {
-        if (GameManager::sharedState()->getGameVariable("0122")) {
+        if (SCManager::getSCModVariable("6011")) {
             GameSoundManager::sharedState()->stopBackgroundMusic();
         }
     }

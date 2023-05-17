@@ -32,4 +32,5 @@ class SCOptionsLayer : public gd::FLAlertLayer, public gd::FLAlertLayerProtocol
     void toggleInfo(CCObject*);
     void keysInfo(CCObject*);
     void onSCProfile(CCObject*);
+    static void setSongFolder();
 };

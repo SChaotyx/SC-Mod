@@ -1,5 +1,6 @@
 #include "GDOptionsLayer.h"
 #include "SCOptionsLayer.h"
+#include "SCManager.h"
 
 void GDOptionsLayer::Hook()
 {
@@ -35,7 +36,7 @@ bool GDOptionsLayer::Init()
 					this,
 					menu_selector(GDOptionsLayer::onMenuMusicToggle)
 				);
-				menuMusicToggle->toggle(bool(GameManager::sharedState()->getGameVariable("0122")));
+				menuMusicToggle->toggle(bool(SCManager::getSCModVariable("6011")));
 				menuMusicToggle->setPosition(140, -75);
 				menuMusicToggle->setScale(0.7f);
 				menu->addChild(menuMusicToggle);
@@ -51,13 +52,13 @@ bool GDOptionsLayer::Init()
 }
 
 void GDOptionsLayer::onMenuMusicToggle(CCObject*) {
-        if (GameManager::sharedState()->getGameVariable("0122")) {
-            GameManager::sharedState()->setGameVariable("0122", false);
+        if (SCManager::getSCModVariable("6011")) {
+            SCManager::setSCModVariable("6011", false);
 			if(!GameManager::sharedState()->getPlayLayer())
             	GameManager::sharedState()->fadeInMusic("menuLoop.mp3");
         }
         else {
-            GameManager::sharedState()->setGameVariable("0122", true);
+            SCManager::setSCModVariable("6011", true);
 			if(!GameManager::sharedState()->getPlayLayer())
             	GameSoundManager::sharedState()->stopBackgroundMusic();
         }
