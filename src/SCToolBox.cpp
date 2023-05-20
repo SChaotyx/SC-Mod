@@ -47,7 +47,7 @@ void SCToolBox::setLevelSpeed(float levelSpeed)
 {
 	auto dir = CCDirector::sharedDirector();
     dir->getScheduler()->setTimeScale(levelSpeed);
-    if(!SCManager::getSCModVariable("6008")) SCToolBox::setSongPitch(levelSpeed);
+    if(!SCManager::getSCModVariable("Opt_noSpdHckMusic")) SCToolBox::setSongPitch(levelSpeed);
     std::cout << "set time scale to: " << levelSpeed << std::endl;
 }
 

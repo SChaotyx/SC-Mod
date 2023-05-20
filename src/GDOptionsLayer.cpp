@@ -36,7 +36,7 @@ bool GDOptionsLayer::Init()
 					this,
 					menu_selector(GDOptionsLayer::onMenuMusicToggle)
 				);
-				menuMusicToggle->toggle(bool(SCManager::getSCModVariable("6011")));
+				menuMusicToggle->toggle(bool(SCManager::getSCModVariable("Opt_menuMusic")));
 				menuMusicToggle->setPosition(140, -75);
 				menuMusicToggle->setScale(0.7f);
 				menu->addChild(menuMusicToggle);
@@ -52,13 +52,13 @@ bool GDOptionsLayer::Init()
 }
 
 void GDOptionsLayer::onMenuMusicToggle(CCObject*) {
-        if (SCManager::getSCModVariable("6011")) {
-            SCManager::setSCModVariable("6011", false);
+        if (SCManager::getSCModVariable("Opt_menuMusic")) {
+            SCManager::setSCModVariable("Opt_menuMusic", false);
 			if(!GameManager::sharedState()->getPlayLayer())
             	GameManager::sharedState()->fadeInMusic("menuLoop.mp3");
         }
         else {
-            SCManager::setSCModVariable("6011", true);
+            SCManager::setSCModVariable("Opt_menuMusic", true);
 			if(!GameManager::sharedState()->getPlayLayer())
             	GameSoundManager::sharedState()->stopBackgroundMusic();
         }

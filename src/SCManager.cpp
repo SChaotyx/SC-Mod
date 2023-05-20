@@ -10,24 +10,24 @@ void SCManager::StartUpCheck()
     if(StartUpChecked) return;
 
     StartUpChecked = true;
-    bool practiceMusic = SCManager::getSCModVariable("6000");
-    bool noTransition = SCManager::getSCModVariable("6001");
-    bool textByPass = SCManager::getSCModVariable("6002");
-    bool hideAtts = SCManager::getSCModVariable("6003");
-    bool sliderLimit = SCManager::getSCModVariable("6004");
-    bool freewinresize = SCManager::getSCModVariable("6005");
+    bool practiceMusic = SCManager::getSCModVariable("Opt_practiceMusic");
+    bool noTransition = SCManager::getSCModVariable("Opt_noTransition");
+    bool textByPass = SCManager::getSCModVariable("Opt_textByPasses");
+    bool hideAtts = SCManager::getSCModVariable("Opt_hideAtts");
+    bool sliderLimit = SCManager::getSCModVariable("Opt_noSliderLimit");
+    bool freewinresize = SCManager::getSCModVariable("Opt_freeWinResize");
 
-    if(practiceMusic) enablePatch("6000");
-    if(noTransition) enablePatch("6001");
-    if(textByPass) enablePatch("6002");
-    if(hideAtts) enablePatch("6003");
-    if(sliderLimit) enablePatch("6004");
-    if(freewinresize) enablePatch("6005");
+    if(practiceMusic) enablePatch("Opt_practiceMusic");
+    if(noTransition) enablePatch("Opt_noTransition");
+    if(textByPass) enablePatch("Opt_textByPasses");
+    if(hideAtts) enablePatch("Opt_hideAtts");
+    if(sliderLimit) enablePatch("Opt_noSliderLimit");
+    if(freewinresize) enablePatch("Opt_freeWinResize");
 }
 
 void SCManager::enablePatch(const char* optionKey)
 {
-    if(strcmp(optionKey, "6000") == 0){  //practice music
+    if(strcmp(optionKey, "Opt_practiceMusic") == 0){  //practice music
         std::cout << "Enable Practice music" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20C925), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90});
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20D143), {0x90, 0x90});
@@ -35,29 +35,29 @@ void SCManager::enablePatch(const char* optionKey)
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20A595), {0x90, 0x90});
         return;
     }
-    if(strcmp(optionKey, "6001") == 0){  //no transition
+    if(strcmp(optionKey, "Opt_noTransition") == 0){  //no transition
         std::cout << "Enable No transition" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0xA5424), {0x90, 0x90, 0x90, 0x90, 0x90});
         return;
     }
-    if(strcmp(optionKey, "6002") == 0){  //text bypass
+    if(strcmp(optionKey, "Opt_textByPasses") == 0){  //text bypass
         std::cout << "Enable Text bypass" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x21ACB), {0xEB, 0x04});
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x21A99), {0x90, 0x90});
         return;
     }
-    if(strcmp(optionKey, "6003") == 0){  //hide attempts
+    if(strcmp(optionKey, "Opt_hideAtts") == 0){  //hide attempts
         std::cout << "Enable Hide attempts" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2D83B8), {0x00});
         return;
     }
-    if(strcmp(optionKey, "6004") == 0){ //slide limit
+    if(strcmp(optionKey, "Opt_noSliderLimit") == 0){ //slide limit
         std::cout << "Enable Slider limit" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2E5CA), {0xEB});
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2E5F8), {0xEB});
         return;
     }
-    if(strcmp(optionKey, "6005") == 0){  // free window resize
+    if(strcmp(optionKey, "Opt_freeWinResize") == 0){  // free window resize
         std::cout << "Enable Free window resize" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x11388B), {0x90, 0x90, 0x90, 0x90, 0x90});
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x11339D), {0xB9, 0xFF, 0xFF, 0xFF, 0x7F, 0x90, 0x90});
@@ -66,14 +66,14 @@ void SCManager::enablePatch(const char* optionKey)
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x112536), {0xEB, 0x11, 0x90});
         return;
     }
-    if(strcmp(optionKey, "6009") == 0){
+    if(strcmp(optionKey, "Opt_customSongfolder") == 0){
         return SCOptionsLayer::setSongFolder();
     }
 }
 
 void SCManager::disablePatch(const char* optionKey)
 { 
-    if(strcmp(optionKey, "6000") == 0){  //practice music
+    if(strcmp(optionKey, "Opt_practiceMusic") == 0){  //practice music
         std::cout << "Disable Practice music" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20C925), {0x0f, 0x85, 0xf7, 0x00, 0x00, 0x00});
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20D143), {0x75, 0x41});
@@ -81,29 +81,29 @@ void SCManager::disablePatch(const char* optionKey)
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x20A595), {0x75, 0x0c});
         return;
     }
-    if(strcmp(optionKey, "6001") == 0){  //no transition
+    if(strcmp(optionKey, "Opt_noTransition") == 0){  //no transition
         std::cout << "Disable No transition" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0xA5424), {0xF3, 0x0F, 0x10, 0x45, 0x08});
         return;
     }
-    if(strcmp(optionKey, "6002") == 0){  //text bypass
+    if(strcmp(optionKey, "Opt_textByPasses") == 0){  //text bypass
         std::cout << "Disable Text bypass" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x21ACB), {0x7C, 0x04});
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x21A99), {0x75, 0x04});
         return;
     }
-    if(strcmp(optionKey, "6003") == 0){  //hide attempts
+    if(strcmp(optionKey, "Opt_hideAtts") == 0){  //hide attempts
         std::cout << "Disable Hide attempts" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2D83B8), {0x41});
         return;
     }
-    if(strcmp(optionKey, "6004") == 0){ //slide limit
+    if(strcmp(optionKey, "Opt_noSliderLimit") == 0){ //slide limit
         std::cout << "Disable Slider limit" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2E5CA), {0x76});
         SCToolBox::patchMemory(reinterpret_cast<void*>(base + 0x2E5F8), {0x76});
         return;
     }
-    if(strcmp(optionKey, "6005") == 0){  // free window resize
+    if(strcmp(optionKey, "Opt_freeWinResize") == 0){  // free window resize
         std::cout << "Disable Free window resize" << std::endl;
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x11388B), {0xE8, 0xB0, 0xF3, 0xFF, 0xFF});
         SCToolBox::patchMemory(reinterpret_cast<void*>(libBase + 0x11339D), {0xE8, 0xEE, 0xF6, 0xFF, 0xFF, 0x8B, 0xC8});

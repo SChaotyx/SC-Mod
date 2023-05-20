@@ -52,21 +52,21 @@ bool SCOptionsLayer::Init()
     btn->setPosition(120, 120);
     m_pButtonMenu->addChild(btn);
 
-    label = CCLabelBMFont::create("v1.3.0 b2", "bigFont.fnt");
+    label = CCLabelBMFont::create("v1.3.0", "bigFont.fnt");
     label->setScale(0.4f);
     label->setPosition(165, -125);
     m_pButtonMenu->addChild(label);
 
-    SCOptionsLayer::createToggle("Practice Music", "6000", "Plays the level's song in-sync with your position, instead of the standard practice song.");
-    SCOptionsLayer::createToggle("No Transition", "6001", "Shorterns scene transition time to 0s.");
-    SCOptionsLayer::createToggle("Text Bypass", "6002", "Allows for unlimited text length in text inputs & Lets you input any character in all text inputs.");
-    SCOptionsLayer::createToggle("Hide Attempts", "6003", "Hides the attempt count in-game.");
-    SCOptionsLayer::createToggle("No Slider Limit", "6004", "Lets sliders be dragged beyond the visible limit.");
-    SCOptionsLayer::createToggle("Free Window Resize", "6005", "Removes limits in place for window resizing.");
+    SCOptionsLayer::createToggle("Practice Music", "Opt_practiceMusic", "Plays the level's song in-sync with your position, instead of the standard practice song.");
+    SCOptionsLayer::createToggle("No Transition", "Opt_noTransition", "Shorterns scene transition time to 0s.");
+    SCOptionsLayer::createToggle("Text Bypass", "Opt_textByPasses", "Allows for unlimited text length in text inputs & Lets you input any character in all text inputs.");
+    SCOptionsLayer::createToggle("Hide Attempts", "Opt_hideAtts", "Hides the attempt count in-game.");
+    SCOptionsLayer::createToggle("No Slider Limit", "Opt_noSliderLimit", "Lets sliders be dragged beyond the visible limit.");
+    SCOptionsLayer::createToggle("Free Window Resize", "Opt_freeWinResize", "Removes limits in place for window resizing.");
 
-    SCOptionsLayer::createToggle("No Speedhack Music", "6008", "Speedhack affects music.");
-    SCOptionsLayer::createToggle("Disable Keybinds", "6007", "Disable SC-Mod keybinds during gameplay.");
-    SCOptionsLayer::createToggle("Custom Song Folder", "6009", "Set your custom song folder.[unfinished: download/detect song to custom folder]");
+    SCOptionsLayer::createToggle("No Speedhack Music", "Opt_noSpdHckMusic", "Speedhack affects music.");
+    SCOptionsLayer::createToggle("Disable Keybinds", "Opt_disableKeybinds", "Disable SC-Mod keybinds during gameplay.");
+    SCOptionsLayer::createToggle("Custom Song Folder", "Opt_customSongfolder", "Set your custom song folder.[unfinished: download/detect song to custom folder]");
 
     setTouchEnabled(true);
     setKeypadEnabled(true);
@@ -204,6 +204,6 @@ void SCOptionsLayer::setSongFolder()
     NFD::UniquePath outPath;
     nfdresult_t result = NFD::PickFolder(outPath);
     if (result == NFD_OKAY) {
-        SCManager::setSCModString("6010", outPath.get());
+        SCManager::setSCModString("Opt_customSongfolderPath", outPath.get());
     }
 }

@@ -10,7 +10,7 @@ void GDGameSoundManager::Hook()
 
 void GDGameSoundManager::playBGMusic(bool idk, bool idk2, std::string path)
 {
-    if(SCManager::getSCModVariable("6009")){
+    if(SCManager::getSCModVariable("Opt_customSongfolder")){
         int posInit = 0;
         int posFound = 0;
         std::string splitted;
@@ -22,7 +22,7 @@ void GDGameSoundManager::playBGMusic(bool idk, bool idk2, std::string path)
             results.push_back(splitted);
         }
         if(results.size() > 1){
-            auto custompath = SCManager::getSCModString("6010") + '\\' + results[results.size() - 1];
+            auto custompath = SCManager::getSCModString("Opt_customSongfolderPath") + '\\' + results[results.size() - 1];
 
             matdash::orig<&GDGameSoundManager::playBGMusic>(this, idk, idk2, custompath);
         } else {
@@ -33,7 +33,7 @@ void GDGameSoundManager::playBGMusic(bool idk, bool idk2, std::string path)
     }
 
     if (FMODAudioEngine::sharedEngine()->isBackgroundMusicPlaying(std::string("menuLoop.mp3"))) {
-        if (SCManager::getSCModVariable("6011")) {
+        if (SCManager::getSCModVariable("Opt_menuMusic")) {
             GameSoundManager::sharedState()->stopBackgroundMusic();
         }
     }
