@@ -134,7 +134,6 @@ void SCReplay::load(const std::string& path)
                 posInit = posFound + 1;
                 results.push_back(splitted);
             }
-            action.actionN = std::stoi(std::string(results[0]));
             action.frame = std::stoi(std::string(results[1]));
             action.hold = results[2] == "1";
             action.holdP2 = results[3] == "1";
@@ -173,7 +172,7 @@ void SCReplaySystem::autoSaveReplay(GJGameLevel* level)
     std::string folder = "SCReplays";
 
     std::string path = 
-        folder+"\\["+levelID+"]["+levelName+"]["+creatorName+"]["+date+"].screp";
+        folder+"\\["+levelID+"]["+date+"]["+levelName+"]["+creatorName+"].screp";
 
     if (!std::filesystem::is_directory(folder) || !std::filesystem::exists(folder))
         std::filesystem::create_directory(folder);

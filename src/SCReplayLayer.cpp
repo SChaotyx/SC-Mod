@@ -97,8 +97,9 @@ void SCReplayLayer::keyBackClicked()
 {
     FLAlertLayer::keyBackClicked();
 }
-void SCReplayLayer::recordCallback(CCObject*){ SCReplaySystem::get().setReplayMode(ReplayState::RECORDING); }
-void SCReplayLayer::playingCallback(CCObject*){ SCReplaySystem::get().setReplayMode(ReplayState::PLAYING); }
+
+void SCReplayLayer::recordCallback(CCObject*){ SCReplaySystem::get().setReplayMode(ReplayState::RECORDING); FLAlertLayer::keyBackClicked();}
+void SCReplayLayer::playingCallback(CCObject*){ SCReplaySystem::get().setReplayMode(ReplayState::PLAYING); FLAlertLayer::keyBackClicked();}
 
 void SCReplayLayer::onSave(CCObject*)
 {
@@ -107,6 +108,7 @@ void SCReplayLayer::onSave(CCObject*)
     auto result = NFD_SaveDialog(&path, filterItem, 1, NULL, NULL);
     if (result == NFD_OKAY) {
         SCReplaySystem::get().getReplay().save(path);
+        FLAlertLayer::keyBackClicked();
         FLAlertLayer::create(nullptr, "Info", "Ok", nullptr, "Replay saved.")->show();
         free(path);
     }
@@ -118,7 +120,10 @@ void SCReplayLayer::onLoad(CCObject*)
     nfdfilteritem_t filterItem[1] = {{"SC-Mod Replay", "screp"}};
     auto result = NFD_OpenDialog(&path, filterItem, 1, NULL);
     if (result == NFD_OKAY) {
-        SCReplaySystem::get().getReplay().load(path);
+        auto& RS = SCReplaySystem::get();
+        RS.getReplay().load(path);
+        RS.setReplayMode(ReplayState::PLAYING);
+        FLAlertLayer::keyBackClicked();
         FLAlertLayer::create(nullptr, "Info", "Ok", nullptr, "Replay loaded.")->show();
         free(path);
     }
