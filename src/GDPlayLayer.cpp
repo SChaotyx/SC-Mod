@@ -43,8 +43,14 @@ void GDPlayLayer::updateVisibility()
 void GDPlayLayer::onLevelComplete()
 {
     matdash::orig<&GDPlayLayer::onLevelComplete>(this);
-    SCReplaySystem::get().setReplayMode(ReplayState::NONE);
-	if(PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor ) SCToolsLayer::resetOnQuit();
+    auto PL = PlayLayer::get();
+    auto& RS = SCReplaySystem::get();
+	if(PL->m_level->m_eLevelType == kGJLevelTypeEditor ) { 
+        SCToolsLayer::resetOnQuit();
+    } else {
+        if(!PL->m_isPracticeMode) RS.autoSaveReplay(PL->m_level);
+    }
+    RS.resetState();
 }
 
 void GDPlayLayer::onPauseGame(bool idk)
@@ -63,7 +69,7 @@ void GDPlayLayer::onReset()
 void GDPlayLayer::onQuit()
 {
     matdash::orig<&GDPlayLayer::onQuit>(this);
-    SCReplaySystem::get().setReplayMode(ReplayState::NONE);
+    SCReplaySystem::get().resetState();
 	if(PlayLayer::get()->m_level->m_eLevelType == kGJLevelTypeEditor ) SCToolsLayer::resetOnQuit();
 }
 

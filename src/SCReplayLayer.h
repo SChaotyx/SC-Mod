@@ -4,6 +4,9 @@
 
 class SCReplayLayer : public FLAlertLayer, public FLAlertLayerProtocol
 {
+    protected:
+    float toggleCount = 0;
+
     public:
     static SCReplayLayer* create()
     {
@@ -26,5 +29,12 @@ class SCReplayLayer : public FLAlertLayer, public FLAlertLayerProtocol
     void playingCallback(CCObject*);
     void onSave(CCObject*);
     void onLoad(CCObject*);
+    void openRepFolder(CCObject*);
+
+    void createToggle(const char*, const char*, const char*);
+    void onToggle(CCObject*);
+    CCSprite* toggleCheck(CCSprite*, CCSprite*, const char*);
+    void SettingToggler(const char*);
+    void toggleInfo(CCObject*);
 };
 

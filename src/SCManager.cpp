@@ -127,7 +127,6 @@ inline std::pair<std::string, std::string> splitKey(const std::string str, char 
 
 void createSaveFile()
 {
-    std::cout << "generate savefile" << std::endl;
     const auto path = getSaveFilePath();
     std::ofstream file(path);
 }

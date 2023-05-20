@@ -205,7 +205,5 @@ void SCOptionsLayer::setSongFolder()
     nfdresult_t result = NFD::PickFolder(outPath);
     if (result == NFD_OKAY) {
         SCManager::setSCModString("6010", outPath.get());
-        std::cout << "Success!" << std::endl << outPath.get() << std::endl;
-        std::cout << SCManager::getSCModString("6010") << std::endl;
     }
 }

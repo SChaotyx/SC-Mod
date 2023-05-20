@@ -23,7 +23,6 @@ void GDGameSoundManager::playBGMusic(bool idk, bool idk2, std::string path)
         }
         if(results.size() > 1){
             auto custompath = SCManager::getSCModString("6010") + '\\' + results[results.size() - 1];
-            std::cout << custompath << std::endl;
 
             matdash::orig<&GDGameSoundManager::playBGMusic>(this, idk, idk2, custompath);
         } else {

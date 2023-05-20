@@ -1,13 +1,13 @@
 #include "SCReplay.h"
 #include "GDPlayLayer.h"
-#include <fstream>
 
 bool SCReplaySystem::recordHandler(bool hold, bool button)
 {
-    if (GameManager::sharedState()->getPlayLayer()) {
+    if (auto PL = GameManager::sharedState()->getPlayLayer()) {
         auto& RS = SCReplaySystem::get();
         if (RS.isPlaying()) return true;
-        RS.recordAction(hold, button);
+        if(!PL->m_hasCompletedLevel)
+            RS.recordAction(hold, button);
     }
     return false;
 }
@@ -24,7 +24,7 @@ void SCReplaySystem::playHandler()
 
 void SCReplaySystem::recordAction(bool hold, bool button)
 {
-    if(!isRecording()) return;
+    if(!isRecording() && !isRecAll()) return;
     auto GM = GameManager::sharedState();
     auto isTwoPlayer = PlayLayer::get()->m_level->m_bTwoPlayerMode;
     bool flip = true;
@@ -68,92 +68,81 @@ void SCReplaySystem::onReset()
     if(isPlaying()) {
         action_index = 0;
         frameOffset = 0;
-    } else if(isRecording()) {
+    } else if(isRecording() || isRecAll()) {
         auto PL = GameManager::sharedState()->getPlayLayer();
         bool hasCheckpoints = PL->m_checkpoints->count();
         const auto checkpoint = practiceFix.getLastCheckpoint();
         const auto& actions = SCReplay.getActions();
         if (!hasCheckpoints) {
             frameOffset = 0;
-            SCReplay.removeActions(getFrame());
+            SCReplay.removeActions(0);
         } else {
             frameOffset = checkpoint.frame;
             if (actions.back().hold) {
                 SCReplay.removeActions(getFrame());
                 recordAction(true, true);
+            } else {
+                SCReplay.removeActions(getFrame());
             }
         }
     }
 }
 
-
-
-
-template <typename T, typename R>
-T cast(R const v) { return reinterpret_cast<T>(v); }
-
-template <typename T>
-inline void bin_write(std::ofstream& stream, T value) {
-	stream.write(cast<char*>(&value), sizeof(T));
+GJGameLevel* getLevel()
+{
+    if(auto play_layer = GameManager::sharedState()->getPlayLayer()){
+        return play_layer->get()->m_level;
+    }
+    return false;
 }
-
-template <typename T>
-inline T bin_read(std::ifstream& stream) {
-	T value;
-	stream.read(cast<char*>(&value), sizeof(T));
-	return value;
-}
-
-std::wstring widen(const char* str) {
-    int size = MultiByteToWideChar(CP_UTF8, 0, str, -1, nullptr, 0);
-    if (size <= 0) {  }
-    auto buffer = new wchar_t[size];
-    MultiByteToWideChar(CP_UTF8, 0, str, -1, buffer, size);
-    std::wstring result(buffer, size_t(size) - 1);
-    delete[] buffer;
-    return result;
-}
-
-inline auto widen(const std::string& str) { return widen(str.c_str()); }
 
 void SCReplay::save(const std::string& path)
 {
-    std::ofstream file;
-	file.open(widen(path), std::ios::binary | std::ios::out);
+    std::ofstream file(path);
     int nActions = 0;
-	for (const auto& action : actions) {
-		uint8_t hold = static_cast<uint8_t>(action.hold) | static_cast<uint8_t>(action.holdP2) << 1;
-		bin_write(file, action.frame);
-		file << hold;
+    file << "[HEADER]" << "\n";
+    file << "Ver=" << REPVER << "\n";
+    file << "FPS=" << 60 << "\n";
+    file << "[ACTIONS]" << "\n";
+    for (const auto& action : actions) {
+        file << nActions << ":" << action.frame << ":" << action.hold << ":" << action.holdP2 << "\n";
         ++ nActions;
-	}
-	file.close();
+    }
     std::cout << "Saved " << nActions << " actions." << std::endl;
 }
 
 void SCReplay::load(const std::string& path)
 {
     removeActions(0);
-    std::ifstream file;
-	file.open(widen(path), std::ios::binary | std::ios::in);
-	file.seekg(0, std::ios::end);
-	size_t file_size = static_cast<size_t>(file.tellg());
-	file.seekg(0);
-    size_t left = file_size - static_cast<size_t>(file.tellg());
-    unsigned frame;
-    uint8_t player;
+    std::ifstream file(path);
+    std::string line;
+    Action action;
     int nActions = 0;
-	for (size_t _ = 0; _ < left / 5; ++_) {
-        frame = bin_read<unsigned>(file);
-		player = bin_read<uint8_t>(file);
-        Action action;
-        action.frame = frame;
-        action.hold = player & 1;
-        action.holdP2 = player & 2;
-		addAction(action);
-        ++ nActions;
-	}
-    file.close();
+    bool loadActions = false;
+
+    while(std::getline(file, line)) {
+        if (line.empty()) continue;
+        if(loadActions) {
+
+            int posInit = 0;
+            int posFound = 0;
+            std::string splitted;
+            std::vector<std::string> results;
+            while(posFound >= 0) {
+                posFound = line.find(':', posInit);
+                splitted = line.substr(posInit, posFound - posInit);
+                posInit = posFound + 1;
+                results.push_back(splitted);
+            }
+            action.actionN = std::stoi(std::string(results[0]));
+            action.frame = std::stoi(std::string(results[1]));
+            action.hold = results[2] == "1";
+            action.holdP2 = results[3] == "1";
+            addAction(action);
+            ++ nActions;
+        }
+        if(line == "[ACTIONS]") loadActions = true;
+    }
     std::cout << "loaded " << nActions << " actions." << std::endl;
 }
 
@@ -163,4 +152,31 @@ void SCReplay::removeActions(unsigned frame)
 		return action.frame >= frame;
     };
 	actions.erase(std::remove_if(actions.begin(), actions.end(), check), actions.end());
+}
+
+void SCReplaySystem::autoSaveReplay(GJGameLevel* level)
+{
+    //[levelID][levelName][creatorName][date].screp
+    if(!isRecAll() || isPlaying()) return;
+
+    auto t = std::time(nullptr);
+    std::tm tm {};
+    localtime_s(&tm, &t);
+
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%d.%m.%Y-%H.%M.%S");
+    auto date = oss.str();
+
+    std::string levelID = std::to_string(level->m_nLevelID);
+    std::string levelName = level->m_sLevelName;
+    std::string creatorName = level->m_sCreatorName;
+    std::string folder = "SCReplays";
+
+    std::string path = 
+        folder+"\\["+levelID+"]["+levelName+"]["+creatorName+"]["+date+"].screp";
+
+    if (!std::filesystem::is_directory(folder) || !std::filesystem::exists(folder))
+        std::filesystem::create_directory(folder);
+
+    getReplay().save(path);
 }

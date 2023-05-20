@@ -151,7 +151,6 @@ void SCToolsLayer::noclipToggler()
 
 void SCToolsLayer::resetOnQuit()
 { 
-    std::cout << "Reset on Quit" << std::endl;
     if(noclipEnabled) noclipToggler();
     if(CCDirector::sharedDirector()->getScheduler()->getTimeScale() != 1) SCToolBox::setLevelSpeed(1);
 }

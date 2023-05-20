@@ -1,6 +1,9 @@
 #pragma once
 #include "includes.h"
 #include "SCPracticeFix.h"
+#include "SCManager.h"
+
+#define REPVER "1.0"
 
 enum ReplayState
 {
@@ -50,6 +53,7 @@ class SCReplaySystem
 
     bool isRecording() { return state == RECORDING; }
     bool isPlaying() { return state == PLAYING; }
+    bool isRecAll() { return SCManager::getSCModVariable("Replay_RecAll"); }
 
     inline auto& getReplay() { return SCReplay; }
     unsigned getFrame();
@@ -57,5 +61,10 @@ class SCReplaySystem
 
     void setReplayMode(ReplayState newState) { state = newState; }
     void onReset();
-
+    void autoSaveReplay(GJGameLevel*);
+    void resetState() {
+        action_index = 0;
+        frameOffset = 0;
+        state = ReplayState::NONE;
+    }
 };
