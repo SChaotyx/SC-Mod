@@ -1,7 +1,6 @@
 #include "GDPauseLayer.h"
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
-#include "SCReplayLayer.h"
 
 void GDPauseLayer::Hook()
 {
@@ -27,13 +26,6 @@ bool GDPauseLayer::Init()
 	optBtn->m_fBaseScale = 0.80f;
 	menu->addChild(optBtn);
 
-	sprite = CCSprite::create("SC_ReplayBtn_001.png");
-	auto replayBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCReplayLayer::openCallback));
-	replayBtn->setPosition(50, winSize.height - 130);
-	replayBtn->setScale(0.85f);
-	replayBtn->m_fBaseScale = 0.85f;
-	menu->addChild(replayBtn);
-	
 	if(PlayLayer::get()->m_level->m_nLevelID)
 	{
 		sprite = CCSprite::createWithSpriteFrameName("GJ_infoBtn_001.png");

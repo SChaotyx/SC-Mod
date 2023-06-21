@@ -52,7 +52,7 @@ bool SCOptionsLayer::Init()
     btn->setPosition(120, 120);
     m_pButtonMenu->addChild(btn);
 
-    label = CCLabelBMFont::create("v1.3.0", "bigFont.fnt");
+    label = CCLabelBMFont::create("v1.3.1", "bigFont.fnt");
     label->setScale(0.4f);
     label->setPosition(165, -125);
     m_pButtonMenu->addChild(label);
@@ -66,7 +66,7 @@ bool SCOptionsLayer::Init()
 
     SCOptionsLayer::createToggle("No Speedhack Music", "Opt_noSpdHckMusic", "Speedhack affects music.");
     SCOptionsLayer::createToggle("Disable Keybinds", "Opt_disableKeybinds", "Disable SC-Mod keybinds during gameplay.");
-    SCOptionsLayer::createToggle("Custom Song Folder", "Opt_customSongfolder", "Set your custom song folder.[unfinished: download/detect song to custom folder]");
+    //SCOptionsLayer::createToggle("Custom Song Folder", "Opt_customSongfolder", "Set your custom song folder.[unfinished: download/detect song to custom folder]");
 
     setTouchEnabled(true);
     setKeypadEnabled(true);

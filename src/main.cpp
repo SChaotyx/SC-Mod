@@ -1,7 +1,7 @@
 #include "includes.h"
 #include <matdash/boilerplate.hpp>
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
     #include <matdash/console.hpp>

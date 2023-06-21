@@ -12,7 +12,6 @@
 #include "SCManager.h"
 #include "SCToolsLayer.h"
 #include "SCToolBox.h"
-#include "SCReplay.h"
 
 static auto libcocos = GetModuleHandleA("libcocos2d.dll");
 static auto fmodBase = GetModuleHandleA("fmod.dll");
@@ -39,13 +38,7 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
     matdash::orig<&CCKeyboardDispatcher_dispatchKeyboardMSG>(self, key, down);
 }
 void CCScheduler_update(CCScheduler* self, float dt) {
-    auto& RS = SCReplaySystem::get();
-    if(RS.isPlaying()) {
-        const float target_dt = 1.f / 60 / 1.f;
-        return matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, target_dt);
-    } else {
-        return matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, dt);
-    }
+    matdash::orig<&CCScheduler_update, matdash::Thiscall>(self, dt);
 }
 
 void Hooks::Load()
@@ -63,8 +56,8 @@ void Hooks::Load()
     matdash::add_hook<&CCKeyboardDispatcher_dispatchKeyboardMSG>
         (GetProcAddress(libcocos, "?dispatchKeyboardMSG@CCKeyboardDispatcher@cocos2d@@QAE_NW4enumKeyCodes@2@_N@Z"));
 
-    matdash::add_hook<&CCScheduler_update, matdash::Thiscall>
-        (GetProcAddress(libcocos, "?update@CCScheduler@cocos2d@@UAEXM@Z"));
+    // matdash::add_hook<&CCScheduler_update, matdash::Thiscall>
+    //     (GetProcAddress(libcocos, "?update@CCScheduler@cocos2d@@UAEXM@Z"));
 
     SCToolBox::FMOD_Channel_setPitch = reinterpret_cast<decltype(SCToolBox::FMOD_Channel_setPitch)>
         (GetProcAddress(fmodBase, "?setPitch@ChannelControl@FMOD@@QAG?AW4FMOD_RESULT@@M@Z"));

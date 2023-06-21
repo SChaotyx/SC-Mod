@@ -1,5 +1,4 @@
 #include "GDEditLevelLayer.h"
-#include "SCReplayLayer.h"
 
 void GDEditLevelLayer::Hook()
 {
@@ -35,14 +34,6 @@ bool GDEditLevelLayer::Init(GJGameLevel* level)
         ldbrBtn->m_fBaseScale = 0.6f;
         menu->addChild(ldbrBtn);
     }
-
-    sprite = CCSprite::create("SC_ReplayBtn_001.png");
-    auto replayBtn = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(SCReplayLayer::openCallback));
-    replayBtn->setScale(0.85f);
-    replayBtn->m_fBaseScale = 0.85f;
-    replayBtn->setPosition(70, winSize.height - 23);
-    menu->addChild(replayBtn);
-
 	return true;
 }
 
