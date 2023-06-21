@@ -5,11 +5,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(SC-Mod)
 
+if (${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+  add_compile_definitions(SHOW_CONSOLE)
+endif()
+
 include(cmake/CPM.cmake)
 
 CPMAddPackage("gh:matcool/mat-dash#294126a")
 CPMAddPackage("gh:HJfod/cocos-headers#1ec524e")
-CPMAddPackage("gh:HJfod/gd.h#056e90e")
+CPMAddPackage("gh:SChaotyx/gd.h#2ee1f0b")
 CPMAddPackage("gh:TsudaKageyu/minhook#98b74f1")
 CPMAddPackage("gh:btzy/nativefiledialog-extended#06a5c1f")
 
@@ -19,6 +23,7 @@ file(GLOB_RECURSE SOURCE_FILES
     ${nativefiledialog-extended_SOURCE_DIR}/src/nfd_common.c
     ${nativefiledialog-extended_SOURCE_DIR}/src/nfd_win.cpp
     )
+
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE CC_DLL=)

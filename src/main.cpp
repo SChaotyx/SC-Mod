@@ -1,9 +1,7 @@
 #include "includes.h"
 #include <matdash/boilerplate.hpp>
 
-//#define DEBUG
-
-#ifdef DEBUG
+#ifdef SHOW_CONSOLE
     #include <matdash/console.hpp>
 #endif
 
@@ -12,7 +10,7 @@
 void mod_main(HMODULE)
 {
 
-    #ifdef DEBUG
+    #ifdef SHOW_CONSOLE
         matdash::create_console();
     #endif
 
