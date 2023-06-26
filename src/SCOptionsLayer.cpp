@@ -52,7 +52,7 @@ bool SCOptionsLayer::Init()
     btn->setPosition(120, 120);
     m_pButtonMenu->addChild(btn);
 
-    label = CCLabelBMFont::create("v1.3.1", "bigFont.fnt");
+    label = CCLabelBMFont::create("v1.3.2", "bigFont.fnt");
     label->setScale(0.4f);
     label->setPosition(165, -125);
     m_pButtonMenu->addChild(label);
@@ -188,7 +188,7 @@ void SCOptionsLayer::keysInfo(CCObject*)
 {
     auto layer = FLAlertLayer::create(
         nullptr, "SC-Mod Keys", "OK", nullptr,
-        "<cg>[A]</c> - Reset level.\n<cy>[N]</c> - Toggle noclip.\n<cy>[,]</c>/<cy>[.]</c> - Speedhack.\n(min 0.25/max 1.25)\n<cy>[M]</c> - Reset speedhack."
+        "<cg>[A]</c> - Reset level.\n<cy>[N]</c> - Toggle noclip\n(only local levels)."
     );
     layer->m_pTargetLayer = this;
     layer->show();

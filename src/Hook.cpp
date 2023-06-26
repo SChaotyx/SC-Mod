@@ -23,12 +23,6 @@ void CCKeyboardDispatcher_dispatchKeyboardMSG(CCKeyboardDispatcher* self, int ke
                 if(play_layer->get()->m_level->m_eLevelType == kGJLevelTypeEditor){
                     if (key == 'N') {
                         SCToolsLayer::noclipToggler();
-                    } else if (key == 'M') {
-                        SCToolBox::setLevelSpeed(1);
-                    } else if (key == 188) { //,
-                        SCToolsLayer::decLevelSpeed(true);
-                    } else if (key == 190) { //.
-                        SCToolsLayer::decLevelSpeed(false);
                     }
                 }
                 if(key == 'A') reinterpret_cast<void(__thiscall*)(PlayLayer*)>(base + 0x20BF00)(play_layer); //reset level
